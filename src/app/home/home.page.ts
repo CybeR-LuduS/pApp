@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-home',
@@ -6,7 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  username: string = ''; // Valor según inicio de sesión
 
-  constructor() {}
-
+  constructor(private authService: AuthService) {
+    // Obtener el nombre de usuario del servicio y asignarlo a la variable username
+    this.username = this.authService.getUsername();
+  }
 }

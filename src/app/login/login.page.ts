@@ -16,7 +16,7 @@ export class LoginPage {
 
   login() {
 
-    // Autenticación exitosa, establecer el nombre de usuario en el servicio
+    // Establecer el nombre de usuario en el servicio
     this.authService.setUsername(this.username);
 
     // Redirigir a la página home
