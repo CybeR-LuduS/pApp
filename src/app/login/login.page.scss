@@ -1,13 +1,17 @@
 /* Fondo del encabezado */
 ion-header {
-    background-color: #0074b3; 
-    color: white; 
+    background-color: #042e54; 
+    color: rgb(255, 255, 255); 
   }
   
   /* Título del encabezado */
   ion-title {
+    background-color: #042e54; 
+    color: #ffba0f; 
     font-size: 24px; 
+    padding: 20px;
   }
+  
   
   /* Estilo del formulario */
   ion-item {
