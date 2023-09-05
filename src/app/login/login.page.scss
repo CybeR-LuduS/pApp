@@ -8,11 +8,14 @@ ion-header {
   ion-title {
     background-color: #042e54; 
     color: #ffba0f; 
+    font-family: fantasy;
     font-size: 24px; 
+    letter-spacing: 2px;
+    text-align: center;
     padding: 20px;
+
   }
-  
-  
+
   /* Estilo del formulario */
   ion-item {
     margin-bottom: 16px; /* Añade espacio entre los elementos */
@@ -20,8 +23,42 @@ ion-header {
   
   /* Botón de ingreso */
   ion-button {
-    background-color: #0074b3; /* Cambia el color de fondo según tus preferencias */
-    color: white; /* Cambia el color del texto */
-    font-weight: bold; /* Cambia el grosor de la fuente */
-    border-radius: 8px; /* Agrega esquinas redondeadas */
+    background-color: #0074b3; 
+    color: white; 
+    font-weight: bold; 
+    border-radius: 8px; 
   }
+
+ /* Contenedor del formulario */
+.contenedor {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  height: 80vh; /* Utiliza el 100% de la altura de la ventana */
+}
+
+.logo {
+  text-align: center; /* Centra horizontalmente */
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+/* Estilo de la imagen del logotipo */
+.logo img {
+  max-width: 60%; 
+}
+
+/* Estilo del formulario dentro del contenedor */
+.form {
+  background-color: white; /* Fondo blanco */
+  padding: 20px;
+  border-radius: 8px;
+  border: 2px solid #0074b3; /* Contorno azul */
+  max-width: 400px; /* Ancho máximo del formulario */
+}
+
+/* Espaciador */
+.spacer {
+  height: 20px; /* Ajusta la altura del espaciador según tu preferencia */
+}
