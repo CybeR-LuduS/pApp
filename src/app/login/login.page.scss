@@ -1,0 +1,23 @@
+/* Fondo del encabezado */
+ion-header {
+    background-color: #0074b3; 
+    color: white; 
+  }
+  
+  /* Título del encabezado */
+  ion-title {
+    font-size: 24px; 
+  }
+  
+  /* Estilo del formulario */
+  ion-item {
+    margin-bottom: 16px; /* Añade espacio entre los elementos */
+  }
+  
+  /* Botón de ingreso */
+  ion-button {
+    background-color: #0074b3; /* Cambia el color de fondo según tus preferencias */
+    color: white; /* Cambia el color del texto */
+    font-weight: bold; /* Cambia el grosor de la fuente */
+    border-radius: 8px; /* Agrega esquinas redondeadas */
+  }
