@@ -8,6 +8,7 @@ import { AuthService } from '../auth.service';
 })
 export class HomePage {
   username: string = ''; // Valor según inicio de sesión
+  adress: string= '';
 
   constructor(private authService: AuthService) {
     // Obtener el nombre de usuario del servicio y asignarlo a la variable username

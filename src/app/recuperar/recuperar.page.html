@@ -1,13 +1,26 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>recuperar</ion-title>
+    <ion-title>TeLlevoAPP</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">recuperar</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="contenedor">
+    <div class="logo">
+      <img src="assets/img/logo.png" alt="Logo" />
+    </div>
+
+    <div class="form">
+      <ion-item>
+        <ion-label position="floating">Correo Electrónico</ion-label>
+        <ion-input [(ngModel)]="email" type="text"></ion-input>
+      </ion-item>
+
+      <ion-button expand="full" (click)="login()">Recuperar Contraseña</ion-button>
+
+      <div class="spacer"></div>
+
+      
+    </div>
+  </div>
 </ion-content>

@@ -6,10 +6,22 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <strong><p class="username-text">Bienvenido {{ username }}</p></strong>
+<ion-content class="ion-padding">
+  <div class="contenedor">
+    <div class="logo">
+      <img src="assets/img/logo.png" alt="Logo" />
+    </div>
+
+    <strong><p class="username-text">Bienvenido {{ username }}</p></strong>
+
+    <div class="form">
+      <ion-item>
+        <ion-label position="floating">Buscar dirección de destino</ion-label>
+        <ion-input [(ngModel)]="adress" type="text"></ion-input>
+      </ion-item>
+
+      <ion-button expand="full">Buscar</ion-button>
+    </div>
+  </div>
 </ion-content>
 
-<ion-footer>
-  <p class="footer-text">App desarrollado por y para alumn@s DuocUC</p>
-</ion-footer>
