@@ -1,15 +1,26 @@
-/* Fondo del encabezado */
-ion-header {
-  background-color: #042e54; 
-  color: rgb(255, 255, 255); 
+/* Encabezado con menú */
+.example-spacer {
+  flex: 1 1 auto;
 }
 
-/* Título del encabezado */
-ion-title {
+.username-text {
+  font-size: 20px; /* Cambia el tamaño de la fuente a tu preferencia */
+}
+
+.mat-toolbar {
   background-color: #042e54; 
-  color: #ffba0f; 
+  color: #ffffff; 
   font-family: fantasy;
   font-size: 24px; 
+  letter-spacing: 2px;
+  text-align: center;
+  padding: 20px;
+}
+
+ion-title {
+  background-color: #042e54;
+  color: #f5f6f7;
+  font-size: 28px;
   letter-spacing: 2px;
   text-align: center;
   padding: 20px;
@@ -21,13 +32,16 @@ ion-item {
   margin-bottom: 16px; /* Añade espacio entre los elementos */
 }
 
-/* Botón de ingreso */
+
+/* Botón de búsqueda */
 ion-button {
   background-color: #0074b3; 
   color: white; 
   font-weight: bold; 
   border-radius: 8px; 
 }
+
+
 
 /* Contenedor del formulario */
 .contenedor {
@@ -36,16 +50,17 @@ flex-direction: column;
 justify-content: center; /* Centrar horizontalmente */
 align-items: center; /* Centrar verticalmente */
 height: 80vh; /* Utiliza el 100% de la altura de la ventana */
+margin-top: 50px;
 }
 
-.logo {
+.auto {
 text-align: center; /* Centra horizontalmente */
-margin-top: 10px;
-margin-bottom: 30px;
+margin-top: 30px;
+margin-bottom: 10px;
 }
 
 /* Estilo de la imagen del logotipo */
-.logo img {
+.auto img {
 max-width: 60%; 
 }
 
@@ -62,3 +77,10 @@ max-width: 400px; /* Ancho máximo del formulario */
 .spacer {
 height: 20px; /* Ajusta la altura del espaciador según tu preferencia */
 }
+
+ion-button:hover {
+  background-color: #ff9900; /* Cambia el color de fondo al pasar el cursor */
+  transform: scale(1.05); /* Cambia el tamaño al pasar el cursor (más sutil) */
+  transition: transform 0.3s ease-in-out; /* Ajusta la duración y el tipo de transición */
+}
+

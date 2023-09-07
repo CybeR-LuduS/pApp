@@ -1,27 +1,41 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      TeLlevoAPP
-    </ion-title>
-  </ion-toolbar>
+    <mat-toolbar>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>TeLlevoAPP</span>
+        <span class="example-spacer"></span>
+        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+          <mat-icon>favorite</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+        <mat-icon>share</mat-icon>
+      </button>
+    </mat-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
   <div class="contenedor">
-    <div class="logo">
-      <img src="assets/img/logo.png" alt="Logo" />
-    </div>
 
     <strong><p class="username-text">Bienvenido {{ username }}</p></strong>
 
     <div class="form">
       <ion-item>
-        <ion-label position="floating">Buscar dirección de destino</ion-label>
+        <ion-icon name="location" slot="start"></ion-icon>
+        <ion-label position="floating">Ingresa dirección de destino</ion-label>
         <ion-input [(ngModel)]="adress" type="text"></ion-input>
       </ion-item>
 
-      <ion-button expand="full">Buscar</ion-button>
+      <ion-button expand="full" (click)="buscarChofer()">
+        <ng-container *ngIf="!buscandoChofer">Buscar</ng-container>
+        <ng-container *ngIf="buscandoChofer">Buscando chofer...</ng-container>
+      </ion-button>
+      <mat-progress-bar mode="indeterminate" *ngIf="buscandoChofer"></mat-progress-bar>
+    </div>
+    <div class="auto">
+      <img src="assets/img/auto.png" alt="auto" />
     </div>
   </div>
+
 </ion-content>
 

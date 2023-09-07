@@ -1,64 +1,90 @@
 /* Fondo del encabezado */
 ion-header {
-    background-color: #042e54; 
-    color: rgb(255, 255, 255); 
-  }
-  
-  /* Título del encabezado */
-  ion-title {
-    background-color: #042e54; 
-    color: #ffba0f; 
-    font-family: fantasy;
-    font-size: 24px; 
-    letter-spacing: 2px;
-    text-align: center;
-    padding: 20px;
+  background-color: #042e54;
+  color: rgb(255, 255, 255);
+}
 
-  }
+/* Título del encabezado */
+ion-title {
+  background-color: #042e54;
+  color: #f5f6f7;
+  font-size: 28px;
+  letter-spacing: 2px;
+  text-align: center;
+  padding: 20px;
 
-  /* Estilo del formulario */
-  ion-item {
-    margin-bottom: 16px; /* Añade espacio entre los elementos */
-  }
-  
-  /* Botón de ingreso */
-  ion-button {
-    background-color: #0074b3; 
-    color: white; 
-    font-weight: bold; 
-    border-radius: 8px; 
-  }
+}
 
- /* Contenedor del formulario */
+/* Estilo del formulario */
+ion-item {
+  margin-bottom: 16px;
+  /* Añade espacio entre los elementos */
+}
+
+/* Botón de ingreso */
+ion-button {
+  background-color: #f1ebeb;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+/* Contenedor del formulario */
 .contenedor {
   display: flex;
-  flex-direction: column; 
-  justify-content: center; /* Centrar horizontalmente */
-  align-items: center; /* Centrar verticalmente */
-  height: 80vh; /* Utiliza el 100% de la altura de la ventana */
+  flex-direction: column;
+  justify-content: center;
+  /* Centrar horizontalmente */
+  align-items: center;
+  /* Centrar verticalmente */
+  height: 80vh;
+  /* Utiliza el 100% de la altura de la ventana */
 }
 
 .logo {
-  text-align: center; /* Centra horizontalmente */
+  text-align: center;
+  /* Centra horizontalmente */
   margin-top: 10px;
   margin-bottom: 30px;
 }
 
 /* Estilo de la imagen del logotipo */
 .logo img {
-  max-width: 60%; 
+  max-width: 60%;
+  animation: fadeInDown 1s ease-in-out;
 }
 
 /* Estilo del formulario dentro del contenedor */
 .form {
-  background-color: white; /* Fondo blanco */
+  background-color: white;
+  /* Fondo blanco */
   padding: 20px;
   border-radius: 8px;
-  border: 2px solid #0074b3; /* Contorno azul */
-  max-width: 400px; /* Ancho máximo del formulario */
+  border: 2px solid #0074b3;
+  /* Contorno azul */
+  max-width: 400px;
+  /* Ancho máximo del formulario */
 }
 
 /* Espaciador */
 .spacer {
-  height: 20px; /* Ajusta la altura del espaciador según tu preferencia */
+  height: 12px;
+  /* Ajusta la altura del espaciador según tu preferencia */
+}
+
+@keyframes fadeInDown {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+ion-button:hover {
+  background-color: #ff9900; /* Cambia el color de fondo al pasar el cursor */
+  transform: scale(1.05); /* Cambia el tamaño al pasar el cursor (más sutil) */
+  transition: transform 0.3s ease-in-out; /* Ajusta la duración y el tipo de transición */
 }
