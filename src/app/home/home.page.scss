@@ -3,9 +3,13 @@
   flex: 1 1 auto;
 }
 
+.username-text {
+  font-size: 20px; /* Cambia el tamaño de la fuente a tu preferencia */
+}
+
 .mat-toolbar {
   background-color: #042e54; 
-  color: #ffba0f; 
+  color: #ffffff; 
   font-family: fantasy;
   font-size: 24px; 
   letter-spacing: 2px;
@@ -13,12 +17,10 @@
   padding: 20px;
 }
 
-/* Título del encabezado */
 ion-title {
-  background-color: #042e54; 
-  color: #ffba0f; 
-  font-family: fantasy;
-  font-size: 24px; 
+  background-color: #042e54;
+  color: #f5f6f7;
+  font-size: 28px;
   letter-spacing: 2px;
   text-align: center;
   padding: 20px;
@@ -74,5 +76,11 @@ max-width: 400px; /* Ancho máximo del formulario */
 /* Espaciador */
 .spacer {
 height: 20px; /* Ajusta la altura del espaciador según tu preferencia */
+}
+
+ion-button:hover {
+  background-color: #ff9900; /* Cambia el color de fondo al pasar el cursor */
+  transform: scale(1.05); /* Cambia el tamaño al pasar el cursor (más sutil) */
+  transition: transform 0.3s ease-in-out; /* Ajusta la duración y el tipo de transición */
 }
 
