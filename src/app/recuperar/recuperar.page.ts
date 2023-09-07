@@ -19,8 +19,8 @@ export class RecuperarPage {
     // Establecer el nombre de usuario en el servicio
     this.authService.setUsername(this.email);
 
-    // Redirigir a la página home
-    this.router.navigate(['/home']);
+    // Redirigir a la página de login
+    this.router.navigate(['/login']);
   }
 
 
