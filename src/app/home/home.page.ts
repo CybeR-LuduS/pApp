@@ -1,20 +1,29 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../auth.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   username: string = ''; // Valor según inicio de sesión
   adress: string= '';
 
   buscandoChofer = false;
 
-  constructor(private authService: AuthService) {
-    // Obtener el nombre de usuario del servicio y asignarlo a la variable username
-    this.username = this.authService.getUsername();
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    const navigation = this.router.getCurrentNavigation();
+
+    if (navigation && navigation.extras && navigation.extras.state) {
+      const state = navigation.extras.state;
+
+      if (state && state["username"]) {
+        this.username = state["username"];
+      }
+    }
   }
 
   buscarChofer() {

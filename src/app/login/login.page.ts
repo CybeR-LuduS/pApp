@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../auth.service'; 
+import { Router, NavigationExtras } from '@angular/router';
 
 
 
@@ -14,16 +13,17 @@ export class LoginPage {
   username: string = '';
   password: string = '';
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router) {}
 
   login() {
+    // Crear un objeto NavigationExtras para pasar datos a la página de inicio
+    const navigationExtras: NavigationExtras = {
+      state: {
+        username: this.username, // Puedes incluir más datos aquí si es necesario
+      },
+    };
 
-    // Establecer el nombre de usuario en el servicio
-    this.authService.setUsername(this.username);
-
-    // Redirigir a la página home
-    this.router.navigate(['/home']);
+    // Redirigir a la página home con los datos
+    this.router.navigate(['/home'], navigationExtras);
   }
-
-
 }
