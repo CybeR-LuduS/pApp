@@ -37,4 +37,8 @@ export class HomePage implements OnInit {
       // Cuando la búsqueda termine, establece 'this.buscandoChofer = false;'
     }
   }
+
+  listaUsuarios() {
+    this.router.navigate(['/lista-usuarios']);
+  }
 }
