@@ -32,8 +32,11 @@ Para el correcto funcionamiento de esta aplicación, previamente es necesario de
  * Ejectuar como comando CLI en el directorio del proyecto de Ionic: _npm install -g @angular/cli_
 </br>
 
+### 2. Instalar librerías de Node
+  * Ejectuar como comando CLI en el directorio del proyecto de Ionic: _npm install_
+</br>
 
-### 2. Ejecución
+### 3. Ejecución
 **Ejecución de servidor de MongoDB y proyecto Django**
   * Para establecer conexión con la base de datos, previamente es necesario descargar y seguir las instrucciones del siguiente repositorio: https://github.com/CybeR-LuduS/TestApi_Django 
 </br>
