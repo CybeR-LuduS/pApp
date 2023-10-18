@@ -9,6 +9,9 @@ La aplicación para dispositivos móviles se llama TeLlevoApp y corresponde al t
  <li>Martín Orellana</li>
  <li>Pablo Maldonado</li>
 </ul>
+</br>
+
+Para el correcto funcionamiento de esta aplicación, previamente es necesario descargar y seguir las instrucciones del repositorio **TestApi_Django**, indicado al final de este documento.
 
 ## Instrucciones
 
@@ -31,5 +34,9 @@ La aplicación para dispositivos móviles se llama TeLlevoApp y corresponde al t
 
 
 ### 2. Ejecución
+**Ejecución de servidor de MongoDB y proyecto Django**
+  * Para establecer conexión con la base de datos, previamente es necesario descargar y seguir las instrucciones del siguiente repositorio: https://github.com/CybeR-LuduS/TestApi_Django 
+</br>
+
 **Ejecución del aplicación de Ionic**
   * Ejectuar como comando CLI en la carpeta del proyecto Django: _ionic serve_
