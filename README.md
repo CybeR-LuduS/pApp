@@ -1,6 +1,6 @@
 # pApp
 
-## Introdución
+## Introducción
 La aplicación para dispositivos móviles se llama TeLlevoApp y corresponde al trabajo semestral de la asignatura "Programación de Aplicaciones Móviles", de la carrera Ingeniería en Informática del Instituto Profesional Duoc UC.
 </br>
 
