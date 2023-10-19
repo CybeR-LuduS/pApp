@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
   username: string = ''; // Valor según inicio de sesión
+  nombre: string= '';
   adress: string= '';
 
   buscandoChofer = false;
@@ -22,8 +23,20 @@ export class HomePage implements OnInit {
 
       if (state && state["username"]) {
         this.username = state["username"];
+        // Obtén el nombre de usuario a partir del correo electrónico
+        this.nombre = this.extractUsername(this.username);
       }
     }
+  }
+
+
+  // Para extraer el nombre de usuario
+  extractUsername(email: string): string {
+    const atIndex = email.indexOf('@');
+    if (atIndex !== -1) {
+      return email.slice(0, atIndex);
+    }
+    return email;
   }
 
   buscarChofer() {
