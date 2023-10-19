@@ -11,6 +11,19 @@
     </ion-toolbar>
   </ion-header>
 
+
+<ion-button expand="block" (click)="loadCategorias()">Cargar</ion-button>
+  <ion-list *ngIf="categorias.length > 0">
+    <ion-item *ngFor="let categoria of categorias">
+      {{ categoria.id }}
+      {{ categoria.nombre }}
+      {{ categoria.descripcion }}
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+
+
 <ion-button expand="block" (click)="loadVehiculos()">Cargar Vehículos</ion-button>
   <ion-list *ngIf="categorias.length > 0">
     <ion-item *ngFor="let vehiculo of vehiculos">
@@ -23,16 +36,6 @@
     </ion-item>
   </ion-list>
 
-
-<ion-button expand="block" (click)="loadCategorias()">Cargar</ion-button>
-  <ion-list *ngIf="categorias.length > 0">
-    <ion-item *ngFor="let categoria of categorias">
-      {{ categoria.id }}
-      {{ categoria.nombre }}
-      {{ categoria.descripcion }}
-    </ion-item>
-  </ion-list>
-</ion-content>
 
 <ion-button expand="block" (click)="loadUsuarios()">Cargar</ion-button>
 <ion-list *ngIf="categorias.length > 0">
