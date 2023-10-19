@@ -12,8 +12,18 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
+  getVehiculos():Observable<any> {
+    return this.http.get(this.apiURL+'/lista_vehiculos')
+    .pipe(retry(3));
+  }
+
   getCategorias():Observable<any> {
     return this.http.get(this.apiURL+'/lista_categorias')
+    .pipe(retry(3));
+  }
+
+  getUsuarios():Observable<any> {
+    return this.http.get(this.apiURL+'/lista_usuarios')
     .pipe(retry(3));
   }
 }
