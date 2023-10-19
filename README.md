@@ -29,11 +29,11 @@ Para el correcto funcionamiento de esta aplicación, previamente es necesario de
 </br>
 
 **Instalar Angular** (framework utilizado por Ionic para la creación y desarrollo de aplicaciones móviles)
- * Ejectuar como comando CLI en el directorio del proyecto de Ionic: _npm install -g @angular/cli_
+ * Ejecutar como comando CLI en el directorio del proyecto de Ionic: _npm install -g @angular/cli_
 </br>
 
 ### 2. Instalar librerías de Node
-  * Ejectuar como comando CLI en el directorio del proyecto de Ionic: _npm install_
+  * Ejecutar como comando CLI en el directorio del proyecto de Ionic: _npm install_
 </br>
 
 ### 3. Ejecución
@@ -42,4 +42,4 @@ Para el correcto funcionamiento de esta aplicación, previamente es necesario de
 </br>
 
 **Ejecución del aplicación de Ionic**
-  * Ejectuar como comando CLI en la carpeta del proyecto Django: _ionic serve_
+  * Ejecutar como comando CLI en la carpeta del proyecto Django: _ionic serve_
