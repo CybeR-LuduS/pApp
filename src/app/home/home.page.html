@@ -1,28 +1,32 @@
 <ion-header [translucent]="true">
-    <mat-toolbar>
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span>TeLlevoAPP</span>
-      <span class="example-spacer"></span>
-      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-        <mat-icon>favorite</mat-icon>
-      </button>
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-        <mat-icon>share</mat-icon>
-      </button>
-      <button mat-icon-button (click)="cerrarSesion()" aria-label="Cerrar sesión">
-        <mat-icon>exit_to_app</mat-icon>
-      </button>
-    </mat-toolbar>
+  <mat-toolbar>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>TeLlevoAPP</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>share</mat-icon>
+    </button>
+    <button mat-icon-button (click)="cerrarSesion()" aria-label="Cerrar sesión">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+  </mat-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
   <div class="contenedor">
-
     <strong><p class="username-text">Bienvenid@ {{ nombre }}</p></strong>
 
     <div class="form">
+      <ion-item>
+        <ion-label>Selecciona la hora de salida</ion-label>
+        <ion-datetime presentation="time" displayFormat="h:mm A" [(ngModel)]="horaSeleccionada"></ion-datetime>
+      </ion-item>
+
       <ion-item>
         <ion-icon name="location" slot="start"></ion-icon>
         <ion-label position="floating">Ingresa dirección de destino</ion-label>
@@ -35,14 +39,36 @@
       </ion-button>
       <mat-progress-bar mode="indeterminate" *ngIf="buscandoChofer"></mat-progress-bar>
     </div>
+
     <div *ngIf="choferes && choferes.length > 0">
       <h2>Choferes activos:</h2>
-      <ion-list>
-        <ion-item *ngFor="let chofer of choferes">
-          {{ chofer.nombre }} {{ chofer.apellido }} ({{ chofer.patente }}) - Sede: {{ chofer.sede }}
-          <!-- Agregar un botón u otra acción para seleccionar el chofer si es necesario -->
-        </ion-item>
-      </ion-list>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Sede</th>
+            <th>Patente</th>
+            <th>Vehículo</th>
+            <th>Color</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let chofer of choferes">
+            <td>{{ chofer.nombre }}</td>
+            <td>{{ chofer.sede }}</td>
+            <td>{{ chofer.patente }}</td>
+            <td>{{ chofer.vehiculo }}</td>
+            <td>{{ chofer.color }}</td>
+            <td>
+              <ion-button color="success">
+                $3.000 p/persona<br>Seleccionar
+              </ion-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="auto">
@@ -50,4 +76,3 @@
     </div>
   </div>
 </ion-content>
-
