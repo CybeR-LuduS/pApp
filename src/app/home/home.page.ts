@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiService } from '../service/api.service';
 
 @Component({
   selector: 'app-home',
@@ -10,10 +11,14 @@ export class HomePage implements OnInit {
   username: string = ''; // Valor según inicio de sesión
   nombre: string= '';
   adress: string= '';
+  choferes: any[] = [];
 
   buscandoChofer = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private apiService: ApiService
+    ) {}
 
   ngOnInit() {
     const navigation = this.router.getCurrentNavigation();
@@ -40,15 +45,11 @@ export class HomePage implements OnInit {
   }
 
   buscarChofer() {
-    if (this.buscandoChofer) {
-      // Detener la búsqueda si ya está en progreso
-      this.buscandoChofer = false;
-    } else {
-      // Comenzar la búsqueda si no está en progreso
-      this.buscandoChofer = true;
-      // Iniciar la búsqueda real, por ejemplo, hacer una solicitud HTTP
-      // Cuando la búsqueda termine, establece 'this.buscandoChofer = false;'
-    }
+    // Realiza una solicitud HTTP para obtener choferes activos
+    this.apiService.getChoferesActivos().subscribe((data) => {
+      // Filtra los usuarios de categoría "chofer" y "isActive = True"
+      this.choferes = data.filter((usuario: { categoria: string; isActive: boolean; }) => usuario.categoria === 'chofer' && usuario.isActive);
+    });
   }
 
   cerrarSesion() {

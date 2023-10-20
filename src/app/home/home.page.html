@@ -35,6 +35,16 @@
       </ion-button>
       <mat-progress-bar mode="indeterminate" *ngIf="buscandoChofer"></mat-progress-bar>
     </div>
+    <div *ngIf="choferes && choferes.length > 0">
+      <h2>Choferes activos:</h2>
+      <ion-list>
+        <ion-item *ngFor="let chofer of choferes">
+          {{ chofer.nombre }} {{ chofer.apellido }} ({{ chofer.patente }}) - Sede: {{ chofer.sede }}
+          <!-- Agregar un botón u otra acción para seleccionar el chofer si es necesario -->
+        </ion-item>
+      </ion-list>
+    </div>
+
     <div class="auto">
       <img src="assets/img/auto.png" alt="auto" />
     </div>

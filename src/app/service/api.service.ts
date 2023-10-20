@@ -26,4 +26,9 @@ export class ApiService {
     return this.http.get(this.apiURL+'/lista_usuarios')
     .pipe(retry(3));
   }
+
+  getChoferesActivos(): Observable<any> {
+    return this.http.get(this.apiURL + '/choferes-activos')
+    .pipe(retry(3));
+  }
 }
