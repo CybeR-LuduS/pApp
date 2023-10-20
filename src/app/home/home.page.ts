@@ -12,6 +12,7 @@ export class HomePage implements OnInit {
   nombre: string= '';
   adress: string= '';
   choferes: any[] = [];
+  horaSeleccionada: string= '';
 
   buscandoChofer = false;
 
