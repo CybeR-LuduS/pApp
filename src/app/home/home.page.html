@@ -1,15 +1,18 @@
 <ion-header [translucent]="true">
     <mat-toolbar>
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <span>TeLlevoAPP</span>
-        <span class="example-spacer"></span>
-        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-          <mat-icon>favorite</mat-icon>
-        </button>
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>TeLlevoAPP</span>
+      <span class="example-spacer"></span>
+      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        <mat-icon>favorite</mat-icon>
+      </button>
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
         <mat-icon>share</mat-icon>
+      </button>
+      <button mat-icon-button (click)="cerrarSesion()" aria-label="Cerrar sesión">
+        <mat-icon>exit_to_app</mat-icon>
       </button>
     </mat-toolbar>
 </ion-header>
@@ -36,8 +39,5 @@
       <img src="assets/img/auto.png" alt="auto" />
     </div>
   </div>
-  <ion-button expand="full" (click)="listaUsuarios()">Lista de usuarios</ion-button>
-  <a routerLink="/lista-usuarios">Lista de usuarios 2</a>
-
 </ion-content>
 
