@@ -52,8 +52,6 @@ export class HomePage implements OnInit {
   }
 
   cerrarSesion() {
-    // Realiza las acciones necesarias para cerrar la sesión, como eliminar tokens de autenticación o borrar datos de usuario en el cliente.
-
     // Redirige al usuario a la página de inicio de sesión (login)
     this.router.navigate(['/login']);
   }

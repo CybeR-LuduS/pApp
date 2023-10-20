@@ -11,8 +11,6 @@
     </div>
 
     <div class="form">
-
-      
       <ion-item>
         <ion-label expand="full" class="custom-label" position="floating">Usuario</ion-label>
         <ion-input [(ngModel)]="username" type="text"></ion-input>
@@ -25,14 +23,15 @@
 
       <ion-button expand="full" (click)="login()">Ingresar</ion-button>
 
+      <ion-button expand="full" class="small-button" (click)="limpiarCampos()">Limpiar Campos</ion-button>
+
       <div class="spacer"></div>
 
       <a routerLink="/recuperar">Recuperar cuenta</a>
-
     </div>
 
     <div class="spacer"></div>
-    
+
     <div *ngIf="errorMessage" [ngClass]="{'error-message': true, 'hidden': !errorMessageVisible}">
       {{ errorMessage }}
     </div>
