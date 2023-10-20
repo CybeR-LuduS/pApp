@@ -84,3 +84,38 @@ ion-button:hover {
   transition: transform 0.3s ease-in-out; /* Ajusta la duración y el tipo de transición */
 }
 
+
+/* TABLA LISTA CHOFERES*/
+
+/* Estilos para la tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd; /* Borde de la tabla */
+}
+
+/* Estilos para las filas */
+tr {
+  background-color: #f2f2f2; /* Fondo de las filas alternas */
+}
+
+/* Estilos para las celdas */
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd; /* Borde inferior en las celdas */
+}
+
+/* Estilo para el encabezado de la tabla */
+th {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+/* Estilos para los botones de acción */
+ion-button {
+  display: block;
+  margin: 5px 0;
+}

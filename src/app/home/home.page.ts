@@ -8,13 +8,12 @@ import { ApiService } from '../service/api.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  username: string = ''; // Valor según inicio de sesión
-  nombre: string= '';
-  adress: string= '';
+  username: string = '';
+  nombre: string = '';
+  adress: string = '';
+  horaSeleccionada: string = '';
+  buscandoChofer: boolean = false;
   choferes: any[] = [];
-  horaSeleccionada: string= '';
-
-  buscandoChofer = false;
 
   constructor(
     private router: Router,
@@ -44,7 +43,7 @@ export class HomePage implements OnInit {
     }
     return email;
   }
-
+/*
   buscarChofer() {
     // Realiza una solicitud HTTP para obtener choferes activos
     this.apiService.getChoferesActivos().subscribe((data) => {
@@ -52,6 +51,35 @@ export class HomePage implements OnInit {
       this.choferes = data.filter((usuario: { categoria: string; isActive: boolean; }) => usuario.categoria === 'chofer' && usuario.isActive);
     });
   }
+*/
+
+buscarChofer() {
+  this.buscandoChofer = true;
+
+  setTimeout(() => {
+    // Simular un tiempo de espera de 4 segundos
+    this.buscandoChofer = false;
+
+    // Datos de choferes ficticios
+    this.choferes = [
+      {
+        nombre: 'María Rodríguez',
+        sede: 'Antonio Varas',
+        patente: 'XY987ZA',
+        vehiculo: 'Marca2 Modelo2',
+        color: 'Azul',
+      },
+      {
+        nombre: 'Martín Torres',
+        sede: 'Padre Alonso de Ovalle',
+        patente: 'JK321UW',
+        vehiculo: 'Marca5 Modelo5',
+        color: 'Blanco',
+      },
+    ];
+  }, 4000);
+}
+
 
   cerrarSesion() {
     // Redirige al usuario a la página de inicio de sesión (login)
