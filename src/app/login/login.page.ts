@@ -40,6 +40,7 @@ export class LoginPage {
           // Inicio de sesión válido
           // Guardar los datos del usuario en el almacenamiento local
           localStorage.setItem('user', JSON.stringify({ username: this.username, password: this.password }));
+          localStorage.setItem('ingresado', 'true');
           
           // Crear un objeto NavigationExtras para pasar datos a la página de inicio
           const navigationExtras: NavigationExtras = {
@@ -71,7 +72,7 @@ export class LoginPage {
     // Limpia los valores de los campos y elimina los valores del almacenamiento local
     this.username = '';
     this.password = '';
-    localStorage.removeItem('username');
-    localStorage.removeItem('password');
+    localStorage.removeItem('user');
+    localStorage.removeItem('ingresado');
   }
 }
