@@ -90,6 +90,15 @@ ion-button:hover {
 }
 
 
+
+
+/* Botón de Limpiar Campos */
+.small-button {
+  font-size: 10px; // 
+  padding: 8px 8px; // 
+  margin-top: 8px; // 
+}
+
 .error-message {
   color: red; // Establece el color de fuente en rojo
   transition: opacity 1s; // Agrega una transición de 1 segundo para la propiedad de opacidad
@@ -98,12 +107,4 @@ ion-button:hover {
 
 .error-message.hidden {
   opacity: 0; // Establece la opacidad en 0 cuando se oculta
-}
-
-
-/* Botón de Limpiar Campos */
-.small-button {
-  font-size: 10px; // 
-  padding: 8px 8px; // 
-  margin-top: 8px; // 
 }

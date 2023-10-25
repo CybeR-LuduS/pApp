@@ -17,16 +17,9 @@ export class LoginPage {
   constructor(
     private router: Router,
     private http: HttpClient
-  ) {
-    // Intenta cargar el usuario desde el almacenamiento local
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      this.username = user.username;
-      this.password = user.password;
-    }
-  }
+  ) {}
 
+  
   login() {
     // Realizar una solicitud GET a la API de Django para validar el inicio de sesión
     const apiUrl = `http://127.0.0.1:8000/api/lista_usuarios`;
@@ -38,8 +31,8 @@ export class LoginPage {
         
         if (user) {
           // Inicio de sesión válido
-          // Guardar los datos del usuario en el almacenamiento local
-          localStorage.setItem('user', JSON.stringify({ username: this.username, password: this.password }));
+          
+          // Establecer estado de sesión como 'ingresado' hasta cerrar sesión (en home)
           localStorage.setItem('ingresado', 'true');
           
           // Crear un objeto NavigationExtras para pasar datos a la página de inicio
@@ -49,8 +42,11 @@ export class LoginPage {
             },
           };
 
+          this.password = '';
+          
           // Redirigir a la página de inicio
           this.router.navigate(['/home'], navigationExtras);
+
         } else {
           // Inicio de sesión no válido, establecer el mensaje de error y mostrarlo
           this.errorMessage = 'Credenciales inválidas (usuario y/o contraseña)';
@@ -69,10 +65,8 @@ export class LoginPage {
   }
 
   limpiarCampos() {
-    // Limpia los valores de los campos y elimina los valores del almacenamiento local
+    // Limpia los valores de los campos
     this.username = '';
     this.password = '';
-    localStorage.removeItem('user');
-    localStorage.removeItem('ingresado');
   }
 }
