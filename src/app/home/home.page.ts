@@ -84,6 +84,7 @@ buscarChofer() {
   cerrarSesion() {
     // Elimina la bandera que indica que la sesión está abierta
     localStorage.removeItem('ingresado');
+
     // Redirige al usuario a la página de inicio de sesión (login)
     this.router.navigate(['/login']);
   }
