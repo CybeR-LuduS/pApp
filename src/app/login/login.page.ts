@@ -14,6 +14,7 @@ export class LoginPage {
   errorMessage: string = '';
   errorMessageVisible: boolean = false;
 
+
   constructor(
     private router: Router,
     private http: HttpClient
@@ -32,6 +33,9 @@ export class LoginPage {
         if (user) {
           // Inicio de sesión válido
           
+          // Guardar el tipo de usuario (pasajero o chofer) en el almacenamiento local
+          localStorage.setItem('userType', user.categoria);
+
           // Establecer estado de sesión como 'ingresado' hasta cerrar sesión (en home)
           localStorage.setItem('ingresado', 'true');
           
