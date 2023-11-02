@@ -8,6 +8,7 @@ import { ApiService } from '../service/api.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+  userType: string = ''; 
   username: string = '';
   nombre: string = '';
   adress: string = '';
@@ -32,6 +33,10 @@ export class HomePage implements OnInit {
         this.nombre = this.extractUsername(this.username);
       }
     }
+
+    // Obtener el tipo de usuario almacenado en el localStorage
+    this.userType = localStorage.getItem('userType') || '';
+  
   }
 
 

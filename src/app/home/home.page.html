@@ -21,55 +21,65 @@
   <div class="contenedor">
     <strong><p class="username-text">Bienvenid@ {{ nombre }}</p></strong>
 
-    <div class="form">
-      <ion-item>
-        <ion-label>Selecciona la hora de salida</ion-label>
-        <ion-datetime presentation="time" displayFormat="h:mm A" [(ngModel)]="horaSeleccionada"></ion-datetime>
-      </ion-item>
+    <!--Vista del pasajero-->
+    <div *ngIf="userType === 'Pasajero'">
 
-      <ion-item>
-        <ion-icon name="location" slot="start"></ion-icon>
-        <ion-label position="floating">Ingresa dirección de destino</ion-label>
-        <ion-input [(ngModel)]="adress" type="text"></ion-input>
-      </ion-item>
+      <div class="form">
+        <ion-item>
+          <ion-label>Selecciona la hora de salida</ion-label>
+          <ion-datetime presentation="time" displayFormat="h:mm A" [(ngModel)]="horaSeleccionada"></ion-datetime>
+        </ion-item>
 
-      <ion-button expand="full" (click)="buscarChofer()">
-        <ng-container *ngIf="!buscandoChofer">Buscar</ng-container>
-        <ng-container *ngIf="buscandoChofer">Buscando chofer...</ng-container>
-      </ion-button>
-      <mat-progress-bar mode="indeterminate" *ngIf="buscandoChofer"></mat-progress-bar>
+        <ion-item>
+          <ion-icon name="location" slot="start"></ion-icon>
+          <ion-label position="floating">Ingresa dirección de destino</ion-label>
+          <ion-input [(ngModel)]="adress" type="text"></ion-input>
+        </ion-item>
+
+        <ion-button expand="full" (click)="buscarChofer()">
+          <ng-container *ngIf="!buscandoChofer">Buscar</ng-container>
+          <ng-container *ngIf="buscandoChofer">Buscando chofer...</ng-container>
+        </ion-button>
+        <mat-progress-bar mode="indeterminate" *ngIf="buscandoChofer"></mat-progress-bar>
+      </div>
+
+      <div *ngIf="choferes && choferes.length > 0">
+        <h2>Choferes activos:</h2>
+      
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Sede</th>
+              <th>Patente</th>
+              <th>Vehículo</th>
+              <th>Color</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let chofer of choferes">
+              <td>{{ chofer.nombre }}</td>
+              <td>{{ chofer.sede }}</td>
+              <td>{{ chofer.patente }}</td>
+              <td>{{ chofer.vehiculo }}</td>
+              <td>{{ chofer.color }}</td>
+              <td>
+                <ion-button color="success">
+                  $3.000 p/persona<br>Seleccionar
+                </ion-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <div *ngIf="choferes && choferes.length > 0">
-      <h2>Choferes activos:</h2>
-    
-      <table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Sede</th>
-            <th>Patente</th>
-            <th>Vehículo</th>
-            <th>Color</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let chofer of choferes">
-            <td>{{ chofer.nombre }}</td>
-            <td>{{ chofer.sede }}</td>
-            <td>{{ chofer.patente }}</td>
-            <td>{{ chofer.vehiculo }}</td>
-            <td>{{ chofer.color }}</td>
-            <td>
-              <ion-button color="success">
-                $3.000 p/persona<br>Seleccionar
-              </ion-button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Vista de chofer -->
+    <div *ngIf="userType === 'Chofer'">
+      <h1>Vista chofer</h1>
     </div>
+
 
     <div class="auto">
       <img src="assets/img/auto.png" alt="auto" />
