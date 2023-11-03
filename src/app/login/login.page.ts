@@ -23,7 +23,7 @@ export class LoginPage {
   
   login() {
     // Realizar una solicitud GET a la API de Django para validar el inicio de sesión
-    const apiUrl = `http://127.0.0.1:8000/api/lista_usuarios`;
+    const apiUrl = 'http://127.0.0.1:8000/api/lista_usuarios';
     this.http.get(apiUrl).subscribe(
       (response: any) => {
         // Verificar si el usuario y la contraseña son válidos
@@ -35,6 +35,12 @@ export class LoginPage {
           
           // Guardar el tipo de usuario (pasajero o chofer) en el almacenamiento local
           localStorage.setItem('userType', user.categoria);
+
+          // Guardar datos del usuario chofer para rellenar campos de generarViaje() en home
+          if (user.categoria === 'Chofer') {
+            localStorage.setItem('userRut', user.rut);
+            localStorage.setItem('userPatente', user.patente);
+          }
 
           // Establecer estado de sesión como 'ingresado' hasta cerrar sesión (en home)
           localStorage.setItem('ingresado', 'true');

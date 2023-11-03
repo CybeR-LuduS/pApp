@@ -78,8 +78,22 @@
       <div class="form">
         <ion-item>
           <ion-label>Selecciona la hora de salida</ion-label>
-          <ion-datetime presentation="time" displayFormat="h:mm A" [(ngModel)]="horaSeleccionada"></ion-datetime>
+          <ion-datetime presentation="time" displayFormat="HH:mm A" [(ngModel)]="horaSalida"></ion-datetime>
         </ion-item>
+        
+        <ion-item>
+          <ion-label>Cantidad máxima de pasajeros</ion-label>
+          <ion-input [(ngModel)]="capacidadPasajeros" type="number"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Precio por persona</ion-label>
+          <ion-input [(ngModel)]="precioPorPersona" type="number"></ion-input>
+        </ion-item>
+    
+        <ion-button expand="full" (click)="generarViaje()">
+          Programar Viaje
+        </ion-button>
       </div>
     </div>
 
