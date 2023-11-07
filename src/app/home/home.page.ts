@@ -88,7 +88,6 @@ export class HomePage implements OnInit {
         // Manejar errores aquí si es necesario
       }
     );
-
   }
 
 
