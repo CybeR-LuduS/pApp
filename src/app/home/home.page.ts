@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
+import { Geolocation } from '@capacitor/geolocation';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -24,7 +26,7 @@ export class HomePage implements OnInit {
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
     ) {}
 
   ngOnInit() {
@@ -48,6 +50,19 @@ export class HomePage implements OnInit {
     if (this.userType == 'Chofer'){
       this.userRut = localStorage.getItem('userRut') || '';
       this.userPatente = localStorage.getItem('userPatente') || '';
+    }
+
+    this.printCurrentPosition(); // Llama a la función para obtener la geolocalización
+
+  }
+
+  /* Obtener coordenadas de geolocalización */
+  async printCurrentPosition() {
+    try {
+      const coordinates = await Geolocation.getCurrentPosition();
+      console.log('Current position:', coordinates);
+    } catch (error) {
+      console.error('Error al obtener la geolocalización:', error);
     }
   }
 
@@ -88,7 +103,6 @@ export class HomePage implements OnInit {
         // Manejar errores aquí si es necesario
       }
     );
-
   }
 
 
