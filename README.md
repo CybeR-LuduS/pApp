@@ -36,7 +36,8 @@ Para el correcto funcionamiento de esta aplicación, previamente es necesario de
   * Ejecutar como comando CLI en el directorio del proyecto de Ionic: _npm install_
 </br>
   * Dependencias Capacitor para geolocalización (API Nativa): _npm install @capacitor/geolocation_
-  * Sincronizar dependencias de Capacitor: _npx cap sync_ 
+  * Sincronizar dependencias de Capacitor: _npx cap sync_
+</br>
 
 ### 3. Ejecución
 **Ejecución de servidor de MongoDB y proyecto Django**
