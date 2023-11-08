@@ -38,8 +38,12 @@ export class LoginPage {
 
           // Guardar datos del usuario chofer para rellenar campos de generarViaje() en home
           if (user.categoria === 'Chofer') {
+            localStorage.setItem('userSede', user.sede);
             localStorage.setItem('userRut', user.rut);
-            localStorage.setItem('userPatente', user.patente);
+            localStorage.setItem('userPatente', user.patenteVehiculo);
+            localStorage.setItem('userMarca', user.marcaVehiculo);
+            localStorage.setItem('userModelo', user.modeloVehiculo);
+            localStorage.setItem('userColor', user.colorVehiculo);
           }
 
           // Establecer estado de sesión como 'ingresado' hasta cerrar sesión (en home)

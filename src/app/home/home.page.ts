@@ -14,20 +14,19 @@ export class HomePage implements OnInit {
   username: string = '';
   nombre: string = '';
 
+  userSede: string = '';
   userRut: string = '';
   userPatente: string = '';
-
-  buscandoViaje: boolean = false;
-  viajes: any[] = [];
-
-  /* 
-  buscandoChofer: boolean = false;
-  choferes: any[] = [];
-  */
+  userMarca: string = '';
+  userModelo: string = '';
+  userColor: string = '';
 
   horaSalida: string = '';
   capacidadPasajeros: number = 0;
   precioPorPersona: number = 0;
+
+  buscandoViaje: boolean = false;
+  viajes: any[] = [];
 
   constructor(
     private router: Router,
@@ -53,8 +52,12 @@ export class HomePage implements OnInit {
     // Obtener los datos del usuario chofer para llenar campos de generarViaje()
 
     if (this.userType == 'Chofer') {
+      this.userSede = localStorage.getItem('userSede') || '';
       this.userRut = localStorage.getItem('userRut') || '';
       this.userPatente = localStorage.getItem('userPatente') || '';
+      this.userMarca = localStorage.getItem('userMarca') || '';
+      this.userModelo = localStorage.getItem('userModelo') || '';
+      this.userColor = localStorage.getItem('userColor') || '';
     }
 
     this.printCurrentPosition(); // Llama a la función para obtener la geolocalización
@@ -86,12 +89,17 @@ export class HomePage implements OnInit {
   generarViaje() {
     // Lógica para crear un viaje con los datos proporcionados
     const viaje = {
-      rutConductor: this.userRut,
+      sede: this.userSede,
+      rut: this.userRut,
       horaSalida: this.horaSalida,
       capacidadPasajeros: this.capacidadPasajeros,
       precioPorPersona: this.precioPorPersona,
+      estadoViaje: 'Programado',
+
       patenteVehiculo: this.userPatente,
-      estadoViaje: 'Programado'
+      marcaVehiculo: this.userMarca,
+      modeloVehiculo: this.userModelo,
+      colorVehiculo: this.userColor,
     };
 
     const apiUrl = 'http://127.0.0.1:8000/api/lista_viajes';
@@ -105,7 +113,6 @@ export class HomePage implements OnInit {
       },
       (error) => {
         console.error('Error al crear el viaje:', error);
-        // Manejar errores aquí si es necesario
       }
     );
   }
@@ -138,39 +145,6 @@ export class HomePage implements OnInit {
       );
     }, 4000);
   }
-
-
-
-
-  /* Lógica para buscar viaje por chofer activo
-  buscarChofer() {
-    this.buscandoChofer = true;
-
-    setTimeout(() => {
-      // Simular un tiempo de espera de 4 segundos
-      this.buscandoChofer = false;
-
-      // Datos de choferes ficticios
-      this.choferes = [
-        {
-          nombre: 'María Rodríguez',
-          sede: 'Antonio Varas',
-          patente: 'XY987ZA',
-          vehiculo: 'Marca2 Modelo2',
-          color: 'Azul',
-        },
-        {
-          nombre: 'Martín Torres',
-          sede: 'Padre Alonso de Ovalle',
-          patente: 'JK321UW',
-          vehiculo: 'Marca5 Modelo5',
-          color: 'Blanco',
-        },
-      ];
-    }, 4000);
-  }
-  */
-
 
 
 
