@@ -10,24 +10,29 @@ import { Geolocation } from '@capacitor/geolocation';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  userType: string = ''; 
+  userType: string = '';
   username: string = '';
   nombre: string = '';
-  
+
   userRut: string = '';
   userPatente: string = '';
 
+  buscandoViaje: boolean = false;
+  viajes: any[] = [];
+
+  /* 
   buscandoChofer: boolean = false;
   choferes: any[] = [];
+  */
 
-  horaSalida: string= '';
+  horaSalida: string = '';
   capacidadPasajeros: number = 0;
-  precioPorPersona: number = 0; 
+  precioPorPersona: number = 0;
 
   constructor(
     private router: Router,
     private http: HttpClient,
-    ) {}
+  ) { }
 
   ngOnInit() {
     const navigation = this.router.getCurrentNavigation();
@@ -46,8 +51,8 @@ export class HomePage implements OnInit {
     this.userType = localStorage.getItem('userType') || '';
 
     // Obtener los datos del usuario chofer para llenar campos de generarViaje()
-    
-    if (this.userType == 'Chofer'){
+
+    if (this.userType == 'Chofer') {
       this.userRut = localStorage.getItem('userRut') || '';
       this.userPatente = localStorage.getItem('userPatente') || '';
     }
@@ -108,6 +113,36 @@ export class HomePage implements OnInit {
 
 
   /* VISTA PASAJERO */
+
+  buscarViaje() {
+    this.buscandoViaje = true;
+
+    setTimeout(() => {
+      // Realiza una solicitud GET a la API de Django para obtener los viajes
+      const apiUrl = 'http://127.0.0.1:8000/api/lista_viajes';
+
+      this.http.get(apiUrl).subscribe(
+        (response: any) => {
+          console.log('Viajes obtenidos con éxito:', response);
+          this.viajes = response; // Almacena los viajes en la propiedad viajes
+
+          // Simular un tiempo de espera de 4 segundos antes de desactivar buscandoViaje
+
+          this.buscandoViaje = false;
+
+        },
+        (error) => {
+          console.error('Error al obtener los viajes:', error);
+          this.buscandoViaje = false;
+        }
+      );
+    }, 4000);
+  }
+
+
+
+
+  /* Lógica para buscar viaje por chofer activo
   buscarChofer() {
     this.buscandoChofer = true;
 
@@ -134,7 +169,7 @@ export class HomePage implements OnInit {
       ];
     }, 4000);
   }
-
+  */
 
 
 
