@@ -114,6 +114,13 @@ th {
   text-align: left;
 }
 
+@media (max-width: 768px) {
+  table {
+    font-size: 12px; /* Cambiar el tamaño de fuente para pantallas más pequeñas */
+  }
+}
+
+
 /* Estilos para los botones de acción */
 ion-button {
   display: block;
