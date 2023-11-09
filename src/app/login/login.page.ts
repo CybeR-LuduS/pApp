@@ -44,6 +44,7 @@ export class LoginPage {
             localStorage.setItem('userMarca', user.marcaVehiculo);
             localStorage.setItem('userModelo', user.modeloVehiculo);
             localStorage.setItem('userColor', user.colorVehiculo);
+            localStorage.setItem('choferCorreo', user.correo);
           }
 
           // Establecer estado de sesión como 'ingresado' hasta cerrar sesión (en home)

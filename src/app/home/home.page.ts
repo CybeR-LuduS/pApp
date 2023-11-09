@@ -20,6 +20,7 @@ export class HomePage implements OnInit {
   userMarca: string = '';
   userModelo: string = '';
   userColor: string = '';
+  choferCorreo: string = '';
 
   horaSalida: string = '';
   capacidadPasajeros: number = 0;
@@ -58,6 +59,7 @@ export class HomePage implements OnInit {
       this.userMarca = localStorage.getItem('userMarca') || '';
       this.userModelo = localStorage.getItem('userModelo') || '';
       this.userColor = localStorage.getItem('userColor') || '';
+      this.choferCorreo = localStorage.getItem('choferCorreo') || '';
     }
 
     this.printCurrentPosition(); // Llama a la función para obtener la geolocalización
@@ -100,6 +102,7 @@ export class HomePage implements OnInit {
       marcaVehiculo: this.userMarca,
       modeloVehiculo: this.userModelo,
       colorVehiculo: this.userColor,
+      correoChofer: this.choferCorreo,
     };
 
     const apiUrl = 'http://127.0.0.1:8000/api/lista_viajes';
@@ -159,6 +162,9 @@ export class HomePage implements OnInit {
       localStorage.removeItem('userRut');
       localStorage.removeItem('userPatente');
     }
+
+  // Borra la lista de viajes en la interfaz de usuario
+  this.viajes = [];
 
     // Redirige al usuario a la página de inicio de sesión (login)
     this.router.navigate(['/login']);
