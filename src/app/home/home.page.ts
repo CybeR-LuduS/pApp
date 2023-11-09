@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+
+import { ApiService } from '../service/api.service';
 
 import { Geolocation } from '@capacitor/geolocation';
 
@@ -31,7 +32,7 @@ export class HomePage implements OnInit {
 
   constructor(
     private router: Router,
-    private http: HttpClient,
+    private api: ApiService,
   ) { }
 
   ngOnInit() {
@@ -90,6 +91,7 @@ export class HomePage implements OnInit {
   /* VISTA CHOFER */
   generarViaje() {
     // Lógica para crear un viaje con los datos proporcionados
+
     const viaje = {
       sede: this.userSede,
       rut: this.userRut,
@@ -105,21 +107,19 @@ export class HomePage implements OnInit {
       correoChofer: this.choferCorreo,
     };
 
-    const apiUrl = 'http://127.0.0.1:8000/api/lista_viajes';
-
     // Realizar una solicitud POST para crear el viaje
-    this.http.post(apiUrl, viaje).subscribe(
-      (response: any) => {
-        console.log('Viaje creado con éxito:', response);
+    this.api.createViaje(viaje).subscribe((success) => {
+        console.log(success);
 
         this.router.navigate(['/home']);
       },
       (error) => {
-        console.error('Error al crear el viaje:', error);
+        console.log(error);
       }
     );
   }
 
+  /* Falta generar mensaje de confirmación de creación de viaje y que cambie la vista del usuario chofer */
 
 
   /* VISTA PASAJERO */
@@ -128,27 +128,25 @@ export class HomePage implements OnInit {
     this.buscandoViaje = true;
 
     setTimeout(() => {
-      // Realiza una solicitud GET a la API de Django para obtener los viajes
-      const apiUrl = 'http://127.0.0.1:8000/api/lista_viajes';
-
-      this.http.get(apiUrl).subscribe(
-        (response: any) => {
-          console.log('Viajes obtenidos con éxito:', response);
-          this.viajes = response; // Almacena los viajes en la propiedad viajes
+      this.api.getViajes().subscribe((res) =>{
+          console.log(res[0]);
+          this.viajes = res; // Almacena los viajes en la propiedad viajes
 
           // Simular un tiempo de espera de 4 segundos antes de desactivar buscandoViaje
-
           this.buscandoViaje = false;
 
         },
         (error) => {
-          console.error('Error al obtener los viajes:', error);
+          console.log(error);
           this.buscandoViaje = false;
         }
       );
     }, 4000);
   }
 
+  // Falta crear y desarrollar función seleccionarViaje() y mensaje de confirmación
+  /* Al seleccionar el viaje, se almacena el correo del pasajero en una variable. Luego, se activa la funcionalidad de 
+  enviar correo de confirmación a los correos de pasajero y chofer, con distintos mensajes */
 
 
   cerrarSesion() {
