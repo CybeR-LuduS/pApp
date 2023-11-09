@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { ApiService } from '../service/api.service';
 
 @Component({
   selector: 'app-login',
@@ -17,17 +17,15 @@ export class LoginPage {
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private api: ApiService
   ) {}
 
   
   login() {
     // Realizar una solicitud GET a la API de Django para validar el inicio de sesión
-    const apiUrl = 'http://127.0.0.1:8000/api/lista_usuarios';
-    this.http.get(apiUrl).subscribe(
-      (response: any) => {
+    this.api.getUsuarios().subscribe((res) => {
         // Verificar si el usuario y la contraseña son válidos
-        const users: any[] = response as any[];
+        const users: any[] = res as any[];
         const user = users.find((u) => u.correo === this.username && u.contrasennia === this.password);
         
         if (user) {

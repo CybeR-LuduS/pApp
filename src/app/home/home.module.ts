@@ -23,6 +23,6 @@ import { HomePageRoutingModule } from './home-routing.module';
     MatToolbarModule,
     MatProgressBarModule,
   ],
-  declarations: [HomePage]
+  declarations: [HomePage],
 })
 export class HomePageModule {}
