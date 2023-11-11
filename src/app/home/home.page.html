@@ -54,8 +54,8 @@
                 {{viaje.colorVehiculo}} <br>
               </td>
               <td>{{ viaje.patenteVehiculo }}</td>
-              <td> <!--FALTA APLICAR FUNCIÓN AL HACER CLICK seleccionarViaje()-->
-                <ion-button color="success">
+              <td>
+                <ion-button color="success" (click)="seleccionarViaje(viaje)">
                   ${{ viaje.precioPorPersona }} p/persona <br>
                   Seleccionar
                 </ion-button>
