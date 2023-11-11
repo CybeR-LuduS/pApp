@@ -182,28 +182,28 @@ export class HomePage implements OnInit {
 
     const correo_pasajero: EmailComposerOptions = {
       to: this.userCorreo,
-      subject: 'Estimado usuario',
-      body: 'Body for Pasajero',
+      subject: 'Confirmación de viaje',
+      body: mensajePasajero,
     };
   
     const correo_chofer: EmailComposerOptions = {
       to: viaje.correoChofer,
-      subject: 'Subject for Chofer',
-      body: 'Body for Chofer',
+      subject: 'Nuevo Pasajero',
+      body: mensajeChofer,
     };
   
     try {
       await this.emailComposer.open(correo_pasajero);
-      console.log('Email to pasajero opened successfully');
+      console.log('Email a pasajero enviado exitosamente');
     } catch (error) {
-      console.error('Error opening email to pasajero', error);
+      console.error('Error enviando email a pasajero', error);
     }
   
     try {
       await this.emailComposer.open(correo_chofer);
-      console.log('Email to chofer opened successfully');
+      console.log('Email a chofer enviado exitosamente');
     } catch (error) {
-      console.error('Error opening email to chofer', error);
+      console.error('Error enviando email a chofer', error);
     }
   }
 
