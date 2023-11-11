@@ -31,8 +31,9 @@ export class LoginPage {
         if (user) {
           // Inicio de sesión válido
           
-          // Guardar el tipo de usuario (pasajero o chofer) en el almacenamiento local
+          // Guardar el tipo de usuario (pasajero o chofer) y correo en el almacenamiento local
           localStorage.setItem('userType', user.categoria);
+          localStorage.setItem('userCorreo', user.correo);
 
           // Guardar datos del usuario chofer para rellenar campos de generarViaje() en home
           if (user.categoria === 'Chofer') {
@@ -42,7 +43,6 @@ export class LoginPage {
             localStorage.setItem('userMarca', user.marcaVehiculo);
             localStorage.setItem('userModelo', user.modeloVehiculo);
             localStorage.setItem('userColor', user.colorVehiculo);
-            localStorage.setItem('choferCorreo', user.correo);
           }
 
           // Establecer estado de sesión como 'ingresado' hasta cerrar sesión (en home)

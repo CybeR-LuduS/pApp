@@ -12,6 +12,7 @@ import { Geolocation } from '@capacitor/geolocation';
 })
 export class HomePage implements OnInit {
   userType: string = '';
+  userCorreo: string = '';
   username: string = '';
   nombre: string = '';
 
@@ -21,7 +22,6 @@ export class HomePage implements OnInit {
   userMarca: string = '';
   userModelo: string = '';
   userColor: string = '';
-  choferCorreo: string = '';
 
   horaSalida: string = '';
   capacidadPasajeros: number = 0;
@@ -48,11 +48,11 @@ export class HomePage implements OnInit {
       }
     }
 
-    // Obtener el tipo de usuario almacenado en el localStorage
+    // Obtener el tipo de usuario y correo almacenado en el localStorage
     this.userType = localStorage.getItem('userType') || '';
+    this.userCorreo = localStorage.getItem('userCorreo') || '';
 
     // Obtener los datos del usuario chofer para llenar campos de generarViaje()
-
     if (this.userType == 'Chofer') {
       this.userSede = localStorage.getItem('userSede') || '';
       this.userRut = localStorage.getItem('userRut') || '';
@@ -60,7 +60,6 @@ export class HomePage implements OnInit {
       this.userMarca = localStorage.getItem('userMarca') || '';
       this.userModelo = localStorage.getItem('userModelo') || '';
       this.userColor = localStorage.getItem('userColor') || '';
-      this.choferCorreo = localStorage.getItem('choferCorreo') || '';
     }
 
     this.printCurrentPosition(); // Llama a la función para obtener la geolocalización
@@ -104,7 +103,7 @@ export class HomePage implements OnInit {
       marcaVehiculo: this.userMarca,
       modeloVehiculo: this.userModelo,
       colorVehiculo: this.userColor,
-      correoChofer: this.choferCorreo,
+      correoChofer: this.userCorreo,
     };
 
     // Realizar una solicitud POST para crear el viaje
@@ -153,8 +152,9 @@ export class HomePage implements OnInit {
     // Elimina la bandera que indica que la sesión está abierta
     localStorage.removeItem('ingresado');
 
-    // Eliminación localStorage de tipo de usuario y, si es chofer, de rut y patente
+    // Eliminación localStorage de tipo de usuario, correo y, si es chofer, de rut y patente
     localStorage.removeItem('userType');
+    localStorage.removeItem('userCorreo');
 
     if (this.userType === 'Chofer') {
       localStorage.removeItem('userRut');
