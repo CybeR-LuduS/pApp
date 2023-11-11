@@ -35,11 +35,18 @@ Para el correcto funcionamiento de esta aplicación, previamente es necesario de
 ### 2. Instalar librerías de Node
   * Ejecutar como comando CLI en el directorio del proyecto de Ionic: _npm install_
 </br>
-  * Dependencias Capacitor para geolocalización (API Nativa): _npm install @capacitor/geolocation_
-  * Sincronizar dependencias de Capacitor: _npx cap sync_
+  * Dependencias Capacitor para geolocalización (API Nativa): <i>npm install @capacitor/geolocation</i> <br>
+  * Sincronizar dependencias de Capacitor: <i>npx cap sync</i>
+<br>
+
+### 3. Instalar Cordova Email Plugin
+<ul>Ejecutar los siguientes comandos CLI: 
+  <li><i>npm install cordova-plugin-email-composer</i></li>
+  <li><i>npm install @awesome-cordova-plugins/email-composer @awesome-cordova-plugins/core</i></li>
+</ul>
 </br>
 
-### 3. Ejecución
+### 4. Ejecución
 **Ejecución de servidor de MongoDB y proyecto Django**
   * Para establecer conexión con la base de datos, previamente es necesario descargar y seguir las instrucciones del siguiente repositorio: https://github.com/CybeR-LuduS/TestApi_Django 
 </br>
