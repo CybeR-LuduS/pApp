@@ -28,6 +28,8 @@ export class HomePage implements OnInit {
   horaSalida: string = '';
   capacidadPasajeros: number = 0;
   precioPorPersona: number = 0;
+  viajeEnProgreso: any = null;
+
 
   buscandoViaje: boolean = false;
   viajes: any[] = [];
@@ -65,6 +67,8 @@ export class HomePage implements OnInit {
       this.userColor = localStorage.getItem('userColor') || '';
     }
 
+    this.obtenerViajeEnProgreso(); // Llama a la función para obtener el viaje en progreso
+
     this.printCurrentPosition(); // Llama a la función para obtener la geolocalización
 
   }
@@ -91,6 +95,20 @@ export class HomePage implements OnInit {
 
 
   /* VISTA CHOFER */
+  obtenerViajeEnProgreso() {
+    this.api.getViajes().subscribe((viajes) => {
+      for (let viaje of viajes) {
+        if (viaje.estadoViaje === 'Programado' && viaje.correoChofer === this.userCorreo) {
+          this.viajeEnProgreso = viaje;
+          break;
+        }
+      }
+      if (!this.viajeEnProgreso) {
+        this.viajeEnProgreso = null;
+      }
+    });
+  }
+  
   generarViaje() {
     // Lógica para crear un viaje con los datos proporcionados
 
@@ -112,13 +130,24 @@ export class HomePage implements OnInit {
     // Realizar una solicitud POST para crear el viaje
     this.api.createViaje(viaje).subscribe((success) => {
         console.log(success);
-
+        this.obtenerViajeEnProgreso(); // Obtener el viaje en progreso después de crear un viaje
         this.router.navigate(['/home']);
       },
       (error) => {
         console.log(error);
       }
     );
+  }
+
+  cancelarViajeChofer() {
+    this.api.deleteViaje(this.viajeEnProgreso._id).subscribe((success) => {
+      console.log(success);
+      this.viajeEnProgreso = null; // Aquí se establece que no hay un viaje en progreso
+      this.router.navigate(['/home']);
+    },
+    (error) => {
+      console.log(error);
+    });
   }
 
   /* Falta generar mensaje de confirmación de creación de viaje y que cambie la vista del usuario chofer */
