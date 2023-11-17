@@ -68,29 +68,42 @@
 
     </div>
 
-    <!-- Vista de chofer -->
-    <div *ngIf="userType === 'Chofer'">
-      <div class="form">
-        <ion-item>
-          <ion-label>Selecciona la hora de salida</ion-label>
-          <ion-datetime presentation="time" displayFormat="HH:mm" [(ngModel)]="horaSalida"></ion-datetime>
-        </ion-item>
-        
-        <ion-item>
-          <ion-label>Cantidad máxima de pasajeros</ion-label>
-          <ion-input [(ngModel)]="capacidadPasajeros" type="number"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>Precio por persona</ion-label>
-          <ion-input [(ngModel)]="precioPorPersona" type="number"></ion-input>
-        </ion-item>
+<!-- Vista de chofer -->
+<div *ngIf="userType === 'Chofer'">
+  <!-- Si no hay un viaje en progreso, mostrar el formulario -->
+  <div class="form" *ngIf="!viajeEnProgreso">
+    <ion-item>
+      <ion-label>Selecciona la hora de salida</ion-label>
+      <ion-datetime presentation="time" displayFormat="HH:mm" [(ngModel)]="horaSalida"></ion-datetime>
+    </ion-item>
     
-        <ion-button expand="full" (click)="generarViaje()">
-          Programar Viaje
-        </ion-button>
-      </div>
-    </div>
+    <ion-item>
+      <ion-label>Cantidad máxima de pasajeros</ion-label>
+      <ion-input [(ngModel)]="capacidadPasajeros" type="number"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Precio por persona</ion-label>
+      <ion-input [(ngModel)]="precioPorPersona" type="number"></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" (click)="generarViaje()">
+      Programar Viaje
+    </ion-button>
+  </div>
+
+  <!-- Si hay un viaje en progreso, mostrar la información del viaje y el botón de cancelar -->
+  <div *ngIf="viajeEnProgreso">
+    <h2>Viaje en progreso</h2>
+    <p>Sede: {{ viajeEnProgreso.sede }}</p>
+    <p>Hora de salida: {{ viajeEnProgreso.horaSalida }}</p>
+    <p>Vehículo: {{ viajeEnProgreso.marcaVehiculo }} {{ viajeEnProgreso.modeloVehiculo }} {{ viajeEnProgreso.colorVehiculo }}</p>
+    <p>Patente: {{ viajeEnProgreso.patenteVehiculo }}</p>
+    <ion-button color="danger" (click)="cancelarViajeChofer()">
+      Cancelar Viaje
+    </ion-button>
+  </div>
+</div>
 
 
     <div class="auto">

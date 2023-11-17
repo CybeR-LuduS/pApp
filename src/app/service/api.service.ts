@@ -35,6 +35,21 @@ export class ApiService {
       );
   }
 
+
+  updateViaje(viaje: any): Observable<any>{
+    return this.http.put(this.apiURL+'/lista_viajes/'+viaje._id, viaje, this.httpOptions).pipe(
+      retry(3),
+      catchError(this.handleError)
+      );
+  }
+  
+  deleteViaje(id: string): Observable<any>{
+    return this.http.delete(this.apiURL+'/lista_viajes/'+id, this.httpOptions).pipe(
+      retry(3),
+      catchError(this.handleError)
+      );
+  }
+
   // Función para manejar errores
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
