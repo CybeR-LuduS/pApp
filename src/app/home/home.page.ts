@@ -25,11 +25,11 @@ export class HomePage implements OnInit {
   userModelo: string = '';
   userColor: string = '';
 
+  currentDate: string = new Date().toISOString();
   horaSalida: string = '';
   capacidadPasajeros: number = 0;
   precioPorPersona: number = 0;
   viajeEnProgreso: any = null;
-
 
   buscandoViaje: boolean = false;
   viajes: any[] = [];
@@ -38,7 +38,14 @@ export class HomePage implements OnInit {
     private router: Router,
     private api: ApiService,
     private emailComposer: EmailComposer,
-  ) { }
+  ) {
+    this.currentDate = this.getFormattedCurrentDate();
+  }
+
+  getFormattedCurrentDate(): string {
+    const now = new Date();
+    return now.toISOString();
+  }
 
   ngOnInit() {
     const navigation = this.router.getCurrentNavigation();
@@ -72,6 +79,7 @@ export class HomePage implements OnInit {
     this.printCurrentPosition(); // Llama a la función para obtener la geolocalización
 
   }
+
 
   /* Obtener coordenadas de geolocalización */
   async printCurrentPosition() {
