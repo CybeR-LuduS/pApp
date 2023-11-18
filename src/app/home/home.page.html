@@ -26,84 +26,93 @@
     <!--Vista del pasajero-->
     <div *ngIf="userType === 'Pasajero'">
 
-      <ion-button expand="full" (click)="buscarViaje()">
-        <ng-container *ngIf="!buscandoViaje">Buscar viaje</ng-container>
-        <ng-container *ngIf="buscandoViaje">Buscando viaje...</ng-container>
-      </ion-button>
-      <mat-progress-bar mode="indeterminate" *ngIf="buscandoViaje"></mat-progress-bar>
+      <!-- Si no hay viaje en progreso -->
+      <div *ngIf="!viajeEnProgresoPasajero">
 
-      <div *ngIf="viajes && viajes.length > 0">
-        <h2 style="text-align: center">Viajes disponibles</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Sede</th>
-              <th>Hora de salida</th>
-              <th>Vehículo</th>
-              <th>Patente</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let viaje of viajes">
-              <td>{{ viaje.sede }}</td>
-              <td>{{ viaje.horaSalida }}</td>
-              <td>
-                {{viaje.marcaVehiculo}} <br>
-                {{viaje.modeloVehiculo}} <br>
-                {{viaje.colorVehiculo}} <br>
-              </td>
-              <td>{{ viaje.patenteVehiculo }}</td>
-              <td>
-                <ion-button color="success" (click)="seleccionarViaje(viaje)">
-                  ${{ viaje.precioPorPersona }} p/persona <br>
-                  Seleccionar
-                </ion-button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <ion-button expand="full" (click)="buscarViaje()">
+          <ng-container *ngIf="!buscandoViaje">Buscar viaje</ng-container>
+          <ng-container *ngIf="buscandoViaje">Buscando viaje...</ng-container>
+        </ion-button>
+        <mat-progress-bar mode="indeterminate" *ngIf="buscandoViaje"></mat-progress-bar>
+
+        <div *ngIf="viajes && viajes.length > 0">
+          <h2 style="text-align: center">Viajes disponibles</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Sede</th>
+                <th>Hora de salida</th>
+                <th>Vehículo</th>
+                <th>Patente</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let viaje of viajes">
+                <td>{{ viaje.sede }}</td>
+                <td>{{ viaje.horaSalida }}</td>
+                <td>
+                  {{viaje.marcaVehiculo}} <br>
+                  {{viaje.modeloVehiculo}} <br>
+                  {{viaje.colorVehiculo}} <br>
+                </td>
+                <td>{{ viaje.patenteVehiculo }}</td>
+                <td>
+                  <ion-button color="success" (click)="seleccionarViaje(viaje)">
+                    ${{ viaje.precioPorPersona }} p/persona <br>
+                    Seleccionar
+                  </ion-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-
-
+      <!-- Si hay viaje en progreso -->
+      <div *ngIf="viajeEnProgresoPasajero">
+        <h2>Viaje programado</h2>
+        <p>Sede: {{ viajeEnProgresoPasajero.sede }}</p>
+        <p>Hora de salida: {{ viajeEnProgresoPasajero.horaSalida }}</p>
+        <p>Vehículo: {{ viajeEnProgresoPasajero.marcaVehiculo }} {{ viajeEnProgresoPasajero.modeloVehiculo }} {{
+          viajeEnProgresoPasajero.colorVehiculo }}</p>
+        <p>Patente: {{ viajeEnProgresoPasajero.patenteVehiculo }}</p>
+        <ion-button expand="full" (click)="cancelarViajePasajero(viajeEnProgresoPasajero)">Cancelar viaje</ion-button>
+      </div>
     </div>
 
-<!-- Vista de chofer -->
-<div *ngIf="userType === 'Chofer'">
-  <!-- Si no hay un viaje en progreso, mostrar el formulario -->
-  <div class="form" *ngIf="!viajeEnProgreso">
-    <ion-item>
-      <ion-label>Selecciona la hora de salida</ion-label>
-      <ion-datetime [value]="currentDate" presentation="time" displayFormat="HH:mm" [(ngModel)]="horaSalida"></ion-datetime>
-    </ion-item>
-    
-    <ion-item>
-      <ion-label>Cantidad máxima de pasajeros</ion-label>
-      <ion-input [(ngModel)]="capacidadPasajeros" type="number"></ion-input>
-    </ion-item>
+    <!-- Vista de chofer -->
+    <div *ngIf="userType === 'Chofer'">
+      <!-- Si no hay un viaje en progreso, mostrar el formulario -->
+      <div class="form" *ngIf="!viajeEnProgresoChofer">
+        <ion-item>
+          <ion-label>Selecciona la hora de salida</ion-label>
+          <ion-datetime [value]="currentDate" presentation="time" displayFormat="HH:mm"
+            [(ngModel)]="horaSalida"></ion-datetime>
+        </ion-item>
 
-    <ion-item>
-      <ion-label>Precio por persona</ion-label>
-      <ion-input [(ngModel)]="precioPorPersona" type="number"></ion-input>
-    </ion-item>
+        <ion-item>
+          <ion-label>Precio por persona</ion-label>
+          <ion-input [(ngModel)]="precioPorPersona" type="number"></ion-input>
+        </ion-item>
 
-    <ion-button expand="full" (click)="generarViaje()">
-      Programar Viaje
-    </ion-button>
-  </div>
+        <ion-button expand="full" (click)="generarViaje()">
+          Programar Viaje
+        </ion-button>
+      </div>
 
-  <!-- Si hay un viaje en progreso, mostrar la información del viaje y el botón de cancelar -->
-  <div *ngIf="viajeEnProgreso">
-    <h2>Viaje en progreso</h2>
-    <p>Sede: {{ viajeEnProgreso.sede }}</p>
-    <p>Hora de salida: {{ viajeEnProgreso.horaSalida }}</p>
-    <p>Vehículo: {{ viajeEnProgreso.marcaVehiculo }} {{ viajeEnProgreso.modeloVehiculo }} {{ viajeEnProgreso.colorVehiculo }}</p>
-    <p>Patente: {{ viajeEnProgreso.patenteVehiculo }}</p>
-    <ion-button color="danger" (click)="cancelarViajeChofer()">
-      Cancelar Viaje
-    </ion-button>
-  </div>
-</div>
+      <!-- Si hay un viaje en progreso, mostrar la información del viaje y el botón de cancelar -->
+      <div *ngIf="viajeEnProgresoChofer">
+        <h2>Viaje programado</h2>
+        <p>Sede: {{ viajeEnProgresoChofer.sede }}</p>
+        <p>Hora de salida: {{ viajeEnProgresoChofer.horaSalida }}</p>
+        <p>Vehículo: {{ viajeEnProgresoChofer.marcaVehiculo }} {{ viajeEnProgresoChofer.modeloVehiculo }} {{
+          viajeEnProgresoChofer.colorVehiculo }}</p>
+        <p>Patente: {{ viajeEnProgresoChofer.patenteVehiculo }}</p>
+        <ion-button color="danger" (click)="cancelarViajeChofer()">
+          Cancelar Viaje
+        </ion-button>
+      </div>
+    </div>
 
 
     <div class="auto">

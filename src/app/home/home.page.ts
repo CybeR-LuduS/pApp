@@ -27,12 +27,12 @@ export class HomePage implements OnInit {
 
   currentDate: string = new Date().toISOString();
   horaSalida: string = '';
-  capacidadPasajeros: number = 0;
   precioPorPersona: number = 0;
-  viajeEnProgreso: any = null;
+  viajeEnProgresoChofer: any = null;
 
   buscandoViaje: boolean = false;
   viajes: any[] = [];
+  viajeEnProgresoPasajero: any = null;
 
   constructor(
     private router: Router,
@@ -74,7 +74,8 @@ export class HomePage implements OnInit {
       this.userColor = localStorage.getItem('userColor') || '';
     }
 
-    this.obtenerViajeEnProgreso(); // Llama a la función para obtener el viaje en progreso
+    this.obtenerViajeEnProgresoChofer(); // Llama a la función para obtener el viaje en progreso (chofer)
+    this.obtenerViajeEnProgresoPasajero(); // Llama a la función para obtener el viaje en progreso (pasajero)
 
     this.printCurrentPosition(); // Llama a la función para obtener la geolocalización
 
@@ -102,21 +103,39 @@ export class HomePage implements OnInit {
   }
 
 
-  /* VISTA CHOFER */
-  obtenerViajeEnProgreso() {
+
+  obtenerViajeEnProgresoChofer() {
     this.api.getViajes().subscribe((viajes) => {
       for (let viaje of viajes) {
         if (viaje.estadoViaje === 'Programado' && viaje.correoChofer === this.userCorreo) {
-          this.viajeEnProgreso = viaje;
+
+          this.viajeEnProgresoChofer = viaje;
           break;
         }
       }
-      if (!this.viajeEnProgreso) {
-        this.viajeEnProgreso = null;
+      if (!this.viajeEnProgresoChofer) {
+        this.viajeEnProgresoChofer = null;
       }
     });
   }
-  
+
+  obtenerViajeEnProgresoPasajero() {
+    this.api.getViajes().subscribe((viajes) => {
+      for (let viaje of viajes) {
+        if (viaje.estadoViaje === 'Programado' && viaje.correoPasajero === this.userCorreo) {
+
+          this.viajeEnProgresoPasajero = viaje;
+          break;
+        }
+      }
+      if (!this.viajeEnProgresoPasajero) {
+        this.viajeEnProgresoPasajero = null;
+      }
+    });
+  }
+
+  /* VISTA CHOFER */
+
   generarViaje() {
     // Lógica para crear un viaje con los datos proporcionados
 
@@ -124,7 +143,6 @@ export class HomePage implements OnInit {
       sede: this.userSede,
       rut: this.userRut,
       horaSalida: this.horaSalida,
-      capacidadPasajeros: this.capacidadPasajeros,
       precioPorPersona: this.precioPorPersona,
       estadoViaje: 'Programado',
 
@@ -137,10 +155,10 @@ export class HomePage implements OnInit {
 
     // Realizar una solicitud POST para crear el viaje
     this.api.createViaje(viaje).subscribe((success) => {
-        console.log(success);
-        this.obtenerViajeEnProgreso(); // Obtener el viaje en progreso después de crear un viaje
-        this.router.navigate(['/home']);
-      },
+      console.log(success);
+      this.obtenerViajeEnProgresoChofer(); // Obtener el viaje en progreso después de crear un viaje
+      this.router.navigate(['/home']);
+    },
       (error) => {
         console.log(error);
       }
@@ -148,14 +166,14 @@ export class HomePage implements OnInit {
   }
 
   cancelarViajeChofer() {
-    this.api.deleteViaje(this.viajeEnProgreso._id).subscribe((success) => {
+    this.api.deleteViaje(this.viajeEnProgresoChofer._id).subscribe((success) => {
       console.log(success);
-      this.viajeEnProgreso = null; // Aquí se establece que no hay un viaje en progreso
+      this.viajeEnProgresoChofer = null; // Aquí se establece que no hay un viaje en progreso
       this.router.navigate(['/home']);
     },
-    (error) => {
-      console.log(error);
-    });
+      (error) => {
+        console.log(error);
+      });
   }
 
   /* Falta generar mensaje de confirmación de creación de viaje y que cambie la vista del usuario chofer */
@@ -166,14 +184,14 @@ export class HomePage implements OnInit {
     this.buscandoViaje = true;
 
     setTimeout(() => {
-      this.api.getViajes().subscribe((res) =>{
-          console.log(res[0]);
-          this.viajes = res; // Almacena los viajes en la propiedad viajes
+      this.api.getViajes().subscribe((res) => {
+        console.log(res[0]);
+        this.viajes = res; // Almacena los viajes en la propiedad viajes
 
-          // Simular un tiempo de espera de 4 segundos antes de desactivar buscandoViaje
-          this.buscandoViaje = false;
+        // Simular un tiempo de espera de 4 segundos antes de desactivar buscandoViaje
+        this.buscandoViaje = false;
 
-        },
+      },
         (error) => {
           console.log(error);
           this.buscandoViaje = false;
@@ -185,7 +203,13 @@ export class HomePage implements OnInit {
   // Falta crear mensaje de confirmación (modal)
   // Falta probar si efectivamente funciona, para lo que hay que usar un dispositivo o emulador
   async seleccionarViaje(viaje: any) {
-
+    try {
+      viaje.correoPasajero = this.userCorreo // Modificar el campo correoPasajero con el correo del pasajero
+      const response = await this.api.updateViaje(viaje).toPromise(); // Utilizar el método updateViaje de api.service.ts para realizar la modificación
+    } catch (error) {
+      console.error('Error al seleccionar el viaje', error);
+    }
+    
     const commonInfo = `
       Sede: ${viaje.sede}
       Hora de salida: ${viaje.horaSalida}
@@ -204,7 +228,7 @@ export class HomePage implements OnInit {
     Gracias por elegir TeLlevoAPP. ¡Esperamos que tengas un gran viaje!
   `;
 
-  const mensajeChofer = `
+    const mensajeChofer = `
     Hola ${viaje.correoChofer},
 
     ${this.nombre} ha seleccionado tu viaje. Aquí están los detalles:
@@ -218,30 +242,46 @@ export class HomePage implements OnInit {
   `;
 
     const correo_pasajero: EmailComposerOptions = {
-      to: this.userCorreo,
+      to: viaje.correoPasajero,
       subject: 'Confirmación de viaje',
       body: mensajePasajero,
     };
-  
+
     const correo_chofer: EmailComposerOptions = {
       to: viaje.correoChofer,
       subject: 'Nuevo Pasajero',
       body: mensajeChofer,
     };
-  
+
     try {
       await this.emailComposer.open(correo_pasajero);
       console.log('Email a pasajero enviado exitosamente');
     } catch (error) {
       console.error('Error enviando email a pasajero', error);
     }
-  
+
     try {
       await this.emailComposer.open(correo_chofer);
       console.log('Email a chofer enviado exitosamente');
     } catch (error) {
       console.error('Error enviando email a chofer', error);
     }
+
+    this.obtenerViajeEnProgresoPasajero(); // Obtener el viaje en progreso después de seleccionar viaje
+    this.router.navigate(['/home']);
+  }
+
+  cancelarViajePasajero(viaje: any) {
+    viaje.correoPasajero = null;
+    this.api.updateViaje(viaje).toPromise()
+      .then(response => {
+        console.log(response);
+        this.viajeEnProgresoPasajero = null; // Aquí se establece que no hay un viaje en progreso
+        this.router.navigate(['/home']);
+      })
+      .catch(error => {
+        console.error('Error al cancelar el viaje', error);
+      });
   }
 
 
@@ -258,8 +298,8 @@ export class HomePage implements OnInit {
       localStorage.removeItem('userPatente');
     }
 
-  // Borra la lista de viajes en la interfaz de usuario
-  this.viajes = [];
+    // Borra la lista de viajes en la interfaz de usuario
+    this.viajes = [];
 
     // Redirige al usuario a la página de inicio de sesión (login)
     this.router.navigate(['/login']);

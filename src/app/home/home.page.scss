@@ -4,7 +4,7 @@
 }
 
 .username-text {
-  font-size: 20px; /* Cambia el tamaño de la fuente a tu preferencia */
+  font-size: 20px;
 }
 
 .mat-toolbar {
@@ -79,9 +79,9 @@ height: 20px; /* Ajusta la altura del espaciador según tu preferencia */
 }
 
 ion-button:hover {
-  background-color: #ff9900; /* Cambia el color de fondo al pasar el cursor */
-  transform: scale(1.05); /* Cambia el tamaño al pasar el cursor (más sutil) */
-  transition: transform 0.3s ease-in-out; /* Ajusta la duración y el tipo de transición */
+  background-color: #ff9900; 
+  transform: scale(1.05); 
+  transition: transform 0.3s ease-in-out; 
 }
 
 
