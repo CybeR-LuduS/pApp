@@ -74,7 +74,7 @@
   <div class="form" *ngIf="!viajeEnProgreso">
     <ion-item>
       <ion-label>Selecciona la hora de salida</ion-label>
-      <ion-datetime presentation="time" displayFormat="HH:mm" [(ngModel)]="horaSalida"></ion-datetime>
+      <ion-datetime [value]="currentDate" presentation="time" displayFormat="HH:mm" [(ngModel)]="horaSalida"></ion-datetime>
     </ion-item>
     
     <ion-item>
