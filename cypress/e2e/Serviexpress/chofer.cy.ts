@@ -1,10 +1,10 @@
-describe('Pruebas E2E para TeLlevoAPP', () => {
+describe('Pruebas E2E para chofer TeLlevoAPP', () => {
   beforeEach(() => {
     cy.visit('/login');
     cy.wait(5000);
   });
 
-  it('Ingreso de Usuario', () => {
+  it('Ingreso de Usuario Chofer 1', () => {
     cy.get('[data-cy=username-input]').type('juan.perez@duocuc.cl');
     cy.get('[data-cy=password-input]').type('juanperez');
     cy.contains('Ingresar').click();
@@ -33,9 +33,8 @@ describe('Pruebas E2E para TeLlevoAPP', () => {
     cy.get('.user-type', { timeout: 10000 }).should('have.text', 'Chofer');
 
     cy.window().then(win => {
-      const now = new Date();
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
+      const hours = 21;
+      const minutes = 40;
       const time = `${hours}:${minutes}`;
     
       const datetimeElement = win.document.querySelector('ion-datetime');
@@ -43,13 +42,13 @@ describe('Pruebas E2E para TeLlevoAPP', () => {
       if (datetimeElement) {
         datetimeElement.componentOnReady().then((datetime) => {
           datetime.value = time;
+          datetime.dispatchEvent(new CustomEvent('ionChange', { detail: { value: time } }));
         });
       }
     });
-
+    
     cy.get('#precioPorPersona').type('2500');
-
-    cy.contains('Programar Viaje').click(); 
-
+    
+    cy.contains('Programar Viaje').click();
   });
 });
