@@ -24,11 +24,11 @@ describe('LoginPage', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('debería crear', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call the login method', async () => {
+  it('debería llamar al método de inicio de sesión', async () => {
     spyOn(component, 'login');
     await fixture.whenStable();
     const buttons = el.queryAll(By.css('ion-button'));

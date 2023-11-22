@@ -10,7 +10,7 @@ describe('IngresadoGuard', () => {
     guard = TestBed.inject(IngresadoGuard);
   });
 
-  it('should be created', () => {
+  it('debería crear', () => {
     expect(guard).toBeTruthy();
   });
 });

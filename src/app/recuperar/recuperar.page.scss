@@ -66,3 +66,14 @@ ion-button:hover {
   transform: scale(1.05); /* Cambia el tamaño al pasar el cursor (más sutil) */
   transition: transform 0.3s ease-in-out; /* Ajusta la duración y el tipo de transición */
 }
+
+
+.error-message {
+  color: red; // Establece el color de fuente en rojo
+  transition: opacity 1s; // Agrega una transición de 1 segundo para la propiedad de opacidad
+  opacity: 1; // Establece la opacidad inicial en 1
+}
+
+.error-message.hidden {
+  opacity: 0; // Establece la opacidad en 0 cuando se oculta
+}
