@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { HomePage } from './home.page';
 
@@ -18,7 +19,7 @@ describe('HomePage', () => {
     await TestBed.configureTestingModule({
       declarations: [HomePage],
       imports: [IonicModule.forRoot(), HttpClientModule,MatToolbarModule,
-      MatIconModule],
+      MatIconModule, MatDialogModule],
       providers: [
         { provide: EmailComposer, useValue: emailComposerStub } 
       ]
@@ -29,7 +30,7 @@ describe('HomePage', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('debería crear', () => {
     expect(component).toBeTruthy();
   });
 });

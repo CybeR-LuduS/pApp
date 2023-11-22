@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AlertController } from '@ionic/angular';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+
+
 import { ApiService } from '../service/api.service';
 
 import { Geolocation } from '@capacitor/geolocation';
@@ -36,8 +41,10 @@ export class HomePage implements OnInit {
 
   constructor(
     private router: Router,
+    private dialog: MatDialog,
     private api: ApiService,
     private emailComposer: EmailComposer,
+    private alertController: AlertController
   ) {
     this.currentDate = this.getFormattedCurrentDate();
   }
@@ -134,6 +141,34 @@ export class HomePage implements OnInit {
     });
   }
 
+  //Mensaje de confirmación de viaje creado/seleccionado
+  async showAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Confirmación',
+      message: message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+
+  //Mensaje de confirmación para cerrar sesión
+  cerrarSesionDialogo() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        message: '¿Estás seguro de que quieres cerrar la sesión?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.cerrarSesion();
+      }
+    });
+  }
+
+
   /* VISTA CHOFER */
 
   generarViaje() {
@@ -157,12 +192,29 @@ export class HomePage implements OnInit {
     this.api.createViaje(viaje).subscribe((success) => {
       console.log(success);
       this.obtenerViajeEnProgresoChofer(); // Obtener el viaje en progreso después de crear un viaje
+      this.showAlert('El viaje se ha programado exitosamente');
       this.router.navigate(['/home']);
     },
       (error) => {
         console.log(error);
       }
     );
+  }
+
+
+  //Mensaje de confirmación para cancelar viaje (chofer)
+  cancelarChoferDialogo() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        message: '¿Estás seguro de que quieres cancelar el viaje',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.cancelarViajeChofer();
+      }
+    });
   }
 
   cancelarViajeChofer() {
@@ -176,6 +228,7 @@ export class HomePage implements OnInit {
       });
   }
 
+
   /* Falta generar mensaje de confirmación de creación de viaje y que cambie la vista del usuario chofer */
 
   /* VISTA PASAJERO */
@@ -184,9 +237,9 @@ export class HomePage implements OnInit {
     this.buscandoViaje = true;
 
     setTimeout(() => {
-      this.api.getViajes().subscribe((res) => {
+      this.api.getViajes().subscribe((res: any[]) => {
         console.log(res[0]);
-        this.viajes = res; // Almacena los viajes en la propiedad viajes
+        this.viajes = res.filter((viaje: any) => viaje.correoPasajero === null); // Filtra los viajes sin pasajeros
 
         // Simular un tiempo de espera de 4 segundos antes de desactivar buscandoViaje
         this.buscandoViaje = false;
@@ -209,7 +262,7 @@ export class HomePage implements OnInit {
     } catch (error) {
       console.error('Error al seleccionar el viaje', error);
     }
-    
+
     const commonInfo = `
       Sede: ${viaje.sede}
       Hora de salida: ${viaje.horaSalida}
@@ -267,9 +320,27 @@ export class HomePage implements OnInit {
       console.error('Error enviando email a chofer', error);
     }
 
-    this.obtenerViajeEnProgresoPasajero(); // Obtener el viaje en progreso después de seleccionar viaje
+    this.obtenerViajeEnProgresoPasajero(); // Obtener el viaje en progreso después de seleccionar viaje}
+    this.showAlert('El viaje se ha seleccionado exitosamente');
     this.router.navigate(['/home']);
   }
+
+
+  //Mensaje de confirmación para cancelar viaje (chofer)
+  cancelarPasajeroDialogo(viaje: any) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        message: '¿Estás seguro de que quieres cancelar el viaje',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.cancelarViajePasajero(viaje);
+      }
+    });
+  }
+
 
   cancelarViajePasajero(viaje: any) {
     viaje.correoPasajero = null;

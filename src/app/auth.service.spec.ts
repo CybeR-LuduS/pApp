@@ -12,7 +12,7 @@ describe('AuthService', () => {
     service = TestBed.inject(AuthService);
   });
 
-  it('should be created', () => {
+  it('debería crear', () => {
     expect(service).toBeTruthy();
   });
 });
