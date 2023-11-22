@@ -53,3 +53,31 @@ Para el correcto funcionamiento de esta aplicación, previamente es necesario de
 
 **Ejecución del aplicación de Ionic**
   * Ejecutar como comando CLI en la carpeta del proyecto Django: _ionic serve_
+
+
+
+## TESTING
+**Instalaciones para el e2e Testing**
+* Instalar dependencias de Cypress
+<i>npm install cypress --save-dev</i>
+</br>
+
+* Iniciar configuraciones
+<i>npx cypress open</i>
+</br>
+
+<ul>Plugins de Webpack para Cypress
+  <li><i>npm install --save-dev @cypress/webpack-preprocessor</i></li>
+  <li><i>npm install @badeball/cypress-cucumber-preprocessor</i></li>
+  <li><i>npm install --save-dev typescript ts-loader</i></li>
+</ul>
+
+
+**Ejecución de pruebas**
+* Pruebas unitarias (con la API en ejecución)
+<i>ng test</i>
+</br>
+
+* Pruebas E2E con Cypress (con la API y la aplicación en ejecución)
+<i>npx cypress open</i>
+</br>

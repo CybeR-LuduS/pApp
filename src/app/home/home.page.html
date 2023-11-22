@@ -21,6 +21,7 @@
   <div class="contenedor">
     <strong>
       <p class="username-text">Bienvenid@ {{ nombre }}</p>
+      <p class="user-type">{{ userType }}</p>
     </strong>
 
     <!--Vista del pasajero-->
@@ -86,13 +87,13 @@
       <div class="form" *ngIf="!viajeEnProgresoChofer">
         <ion-item>
           <ion-label>Selecciona la hora de salida</ion-label>
-          <ion-datetime [value]="currentDate" presentation="time" displayFormat="HH:mm"
+          <ion-datetime id="horaSalida" [value]="currentDate" presentation="time" displayFormat="HH:mm"
             [(ngModel)]="horaSalida"></ion-datetime>
         </ion-item>
 
         <ion-item>
           <ion-label>Precio por persona</ion-label>
-          <ion-input [(ngModel)]="precioPorPersona" type="number"></ion-input>
+          <ion-input id="precioPorPersona" [(ngModel)]="precioPorPersona" type="number"></ion-input>
         </ion-item>
 
         <ion-button expand="full" (click)="generarViaje()">
