@@ -41,4 +41,38 @@ describe('LoginPage', () => {
     }
   });
 
+  it('debería tener campos de entrada para el nombre de usuario y la contraseña', () => {
+    const usernameInput = el.query(By.css('ion-input[data-cy=username-input]'));
+    const passwordInput = el.query(By.css('ion-input[data-cy=password-input]'));
+    expect(usernameInput).toBeTruthy();
+    expect(passwordInput).toBeTruthy();
+  });
+
+  it('debería tener un botón para limpiar los campos', async () => {
+    spyOn(component, 'limpiarCampos');
+    await fixture.whenStable();
+    const buttons = el.queryAll(By.css('ion-button'));
+    const clearButton = buttons.find(button => button.nativeElement.textContent.trim() === 'Limpiar Campos');
+    if (clearButton) {
+      clearButton.triggerEventHandler('click', null);
+      expect(component.limpiarCampos).toHaveBeenCalledTimes(1);
+    } else {
+      fail('No se encontró el botón para limpiar los campos');
+    }
+  });
+
+  it('debería tener un enlace para recuperar la cuenta', () => {
+    const recoverLink = el.query(By.css('a[routerLink="/recuperar"]'));
+    expect(recoverLink).toBeTruthy();
+  });
+
+  it('debería mostrar un mensaje de error cuando el inicio de sesión falla', () => {
+    component.errorMessage = 'Error de inicio de sesión';
+    component.errorMessageVisible = true;
+    fixture.detectChanges();
+    const errorMessage = el.query(By.css('.error-message:not(.hidden)'));
+    expect(errorMessage).toBeTruthy();
+    expect(errorMessage.nativeElement.textContent.trim()).toBe('Error de inicio de sesión');
+  });
+
 });
