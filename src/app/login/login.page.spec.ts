@@ -41,4 +41,17 @@ describe('LoginPage', () => {
     }
   });
 
+  it('debería limpiar los valores de username y password', () => {
+    
+    component.username = 'test@example.com';
+    component.password = 'password123';
+  
+   
+    component.limpiarCampos();
+  
+    
+    expect(component.username).toEqual('');
+    expect(component.password).toEqual('');
+  });
+
 });

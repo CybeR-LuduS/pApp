@@ -40,9 +40,9 @@ export class HomePage implements OnInit {
   viajeEnProgresoPasajero: any = null;
 
   constructor(
-    private router: Router,
+    public router: Router,
     private dialog: MatDialog,
-    private api: ApiService,
+    public api: ApiService,
     private emailComposer: EmailComposer,
     private alertController: AlertController
   ) {
