@@ -28,6 +28,11 @@ export class ApiService {
       retry(3));
   }
 
+  getViaje(_id: string): Observable<any> {
+    return this.http.get(this.apiURL + '/lista_viajes/' + _id).pipe(
+      retry(3));
+  }
+
   createViaje(viaje: any): Observable<any>{
     return this.http.post(this.apiURL+'/lista_viajes',viaje, this.httpOptions).pipe(
       retry(3),

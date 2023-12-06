@@ -129,8 +129,8 @@ export class HomePage implements OnInit {
   obtenerViajeEnProgresoPasajero() {
     this.api.getViajes().subscribe((viajes) => {
       for (let viaje of viajes) {
-        if (viaje.estadoViaje === 'Programado' && viaje.correoPasajero === this.userCorreo) {
-
+        // Verificar si correoPasajero contiene this.userCorreo
+        if (viaje.estadoViaje === 'Programado' && viaje.correoPasajero.includes(this.userCorreo)) {
           this.viajeEnProgresoPasajero = viaje;
           break;
         }
@@ -239,7 +239,7 @@ export class HomePage implements OnInit {
     setTimeout(() => {
       this.api.getViajes().subscribe((res: any[]) => {
         console.log(res[0]);
-        this.viajes = res.filter((viaje: any) => viaje.correoPasajero === null); // Filtra los viajes sin pasajeros
+        this.viajes = res;
 
         // Simular un tiempo de espera de 4 segundos antes de desactivar buscandoViaje
         this.buscandoViaje = false;
@@ -253,12 +253,20 @@ export class HomePage implements OnInit {
     }, 4000);
   }
 
-  // Falta crear mensaje de confirmación (modal)
-  // Falta probar si efectivamente funciona, para lo que hay que usar un dispositivo o emulador
+
   async seleccionarViaje(viaje: any) {
     try {
-      viaje.correoPasajero = this.userCorreo // Modificar el campo correoPasajero con el correo del pasajero
-      const response = await this.api.updateViaje(viaje).toPromise(); // Utilizar el método updateViaje de api.service.ts para realizar la modificación
+      const currentViaje = await this.api.getViaje(viaje._id).toPromise();
+  
+      // Convertir el campo correoPasajero en una lista de correos y agregar this.userCorreo a la lista de correos
+      let correosPasajero = currentViaje.correoPasajero.split(',');
+      correosPasajero.push(this.userCorreo);
+  
+      // Convertir la lista de correos de nuevo a una cadena y asignarla al campo correoPasajero
+      currentViaje.correoPasajero = correosPasajero.join(',');
+  
+      // Actualizar el viaje con la nueva lista de correos
+      const response = await this.api.updateViaje(currentViaje).toPromise();
     } catch (error) {
       console.error('Error al seleccionar el viaje', error);
     }
