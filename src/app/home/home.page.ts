@@ -32,6 +32,7 @@ export class HomePage implements OnInit {
 
   currentDate: string = new Date().toISOString();
   horaSalida: string = '';
+  capacidadPasajeros: number = 0;
   precioPorPersona: number = 0;
   viajeEnProgresoChofer: any = null;
 
@@ -172,12 +173,23 @@ export class HomePage implements OnInit {
   /* VISTA CHOFER */
 
   generarViaje() {
-    // Lógica para crear un viaje con los datos proporcionados
+    // Validación de la capacidad de pasajeros
+    if (this.capacidadPasajeros < 1 || this.capacidadPasajeros > 4) {
+      alert('La capacidad debe ser entre 1 y 4 pasajeros');
+      return;
+    }
+
+    // Validación del precio por persona
+    if (this.precioPorPersona < 1000) {
+      alert('El precio por persona debe ser al menos 1000');
+      return;
+    }
 
     const viaje = {
       sede: this.userSede,
       rut: this.userRut,
       horaSalida: this.horaSalida,
+      capacidadPasajeros: this.capacidadPasajeros,
       precioPorPersona: this.precioPorPersona,
       estadoViaje: 'Programado',
 
@@ -229,7 +241,6 @@ export class HomePage implements OnInit {
   }
 
 
-  /* Falta generar mensaje de confirmación de creación de viaje y que cambie la vista del usuario chofer */
 
   /* VISTA PASAJERO */
 
@@ -253,19 +264,27 @@ export class HomePage implements OnInit {
     }, 4000);
   }
 
+  contarPasajeros(correoPasajero: string): number {
+    if (!correoPasajero || correoPasajero === '') {
+      return 0;
+    } else {
+      return correoPasajero.split(',').length - 1;
+    }
+  }
+
 
   async seleccionarViaje(viaje: any) {
     try {
       const currentViaje = await this.api.getViaje(viaje._id).toPromise();
   
-      // Convertir el campo correoPasajero en una lista de correos y agregar this.userCorreo a la lista de correos
-      let correosPasajero = currentViaje.correoPasajero.split(',');
+      let correosPasajero = [];
+      if (currentViaje.correoPasajero !== null && currentViaje.correoPasajero !== undefined) {
+        correosPasajero = currentViaje.correoPasajero.split(',');
+      }
       correosPasajero.push(this.userCorreo);
   
-      // Convertir la lista de correos de nuevo a una cadena y asignarla al campo correoPasajero
       currentViaje.correoPasajero = correosPasajero.join(',');
   
-      // Actualizar el viaje con la nueva lista de correos
       const response = await this.api.updateViaje(currentViaje).toPromise();
     } catch (error) {
       console.error('Error al seleccionar el viaje', error);
@@ -351,7 +370,17 @@ export class HomePage implements OnInit {
 
 
   cancelarViajePasajero(viaje: any) {
-    viaje.correoPasajero = null;
+    let correosPasajero = viaje.correoPasajero.split(',');
+  
+    // Eliminar el correo del pasajero
+    const index = correosPasajero.indexOf(this.userCorreo);
+    if (index > -1) {
+      correosPasajero.splice(index, 1);
+    }
+  
+    // Convertir el array de nuevo en una cadena
+    viaje.correoPasajero = correosPasajero.join(',');
+  
     this.api.updateViaje(viaje).toPromise()
       .then(response => {
         console.log(response);

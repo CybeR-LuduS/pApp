@@ -36,6 +36,11 @@
         </ion-item>
 
         <ion-item>
+          <ion-label>Cantidad de pasajeros</ion-label>
+          <ion-input id="cantidadPasajeros" [(ngModel)]="capacidadPasajeros" type="number"></ion-input>
+        </ion-item>
+
+        <ion-item>
           <ion-label>Precio por persona</ion-label>
           <ion-input id="precioPorPersona" [(ngModel)]="precioPorPersona" type="number"></ion-input>
         </ion-item>
@@ -81,29 +86,34 @@
                 <th>Hora de salida</th>
                 <th>Vehículo</th>
                 <th>Patente</th>
+                <th>Capacidad</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let viaje of viajes">
-                <td>{{ viaje.sede }}</td>
-                <td>{{ viaje.horaSalida }}</td>
-                <td>
-                  {{viaje.marcaVehiculo}} <br>
-                  {{viaje.modeloVehiculo}} <br>
-                  {{viaje.colorVehiculo}} <br>
-                </td>
-                <td>{{ viaje.patenteVehiculo }}</td>
-                <td>
-                  <ion-button color="success" (click)="seleccionarViaje(viaje)">
-                    ${{ viaje.precioPorPersona }} p/persona <br>
-                    Seleccionar
-                  </ion-button>
-                </td>
-              </tr>
+              <ng-container *ngFor="let viaje of viajes">
+                <tr *ngIf="contarPasajeros(viaje.correoPasajero) < viaje.capacidadPasajeros">
+                  <td>{{ viaje.sede }}</td>
+                  <td>{{ viaje.horaSalida }}</td>
+                  <td>
+                    {{viaje.marcaVehiculo}} <br>
+                    {{viaje.modeloVehiculo}} <br>
+                    {{viaje.colorVehiculo}} <br>
+                  </td>
+                  <td>{{ viaje.patenteVehiculo }}</td>
+                  <td>{{ contarPasajeros(viaje.correoPasajero) }}/{{ viaje.capacidadPasajeros }}</td>
+                  <td>
+                    <ion-button color="success" (click)="seleccionarViaje(viaje)">
+                      ${{ viaje.precioPorPersona }} p/persona <br>
+                      Seleccionar
+                    </ion-button>
+                  </td>
+                </tr>
+              </ng-container>
             </tbody>
           </table>
         </div>
+
       </div>
 
       <!-- Si hay viaje en progreso -->
