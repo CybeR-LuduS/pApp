@@ -31,7 +31,7 @@
       <div class="form" *ngIf="!viajeEnProgresoChofer">
         <ion-item>
           <ion-label>Selecciona la hora de salida</ion-label>
-          <ion-datetime id="horaSalida" [value]="currentDate" presentation="time" displayFormat="HH:mm"
+          <ion-datetime id="horaSalida" [value]="horaSalida" presentation="time" displayFormat="HH:mm"
             [(ngModel)]="horaSalida"></ion-datetime>
         </ion-item>
 
@@ -58,6 +58,12 @@
         <p>Vehículo: {{ viajeEnProgresoChofer.marcaVehiculo }} {{ viajeEnProgresoChofer.modeloVehiculo }} {{
           viajeEnProgresoChofer.colorVehiculo }}</p>
         <p>Patente: {{ viajeEnProgresoChofer.patenteVehiculo }}</p>
+        <p>Pasajeros:</p>
+        <ul>
+          <li *ngFor="let correo of correosPasajeros">
+            {{ correo.split('@')[0] }}
+          </li>
+        </ul>
         <ion-button color="success" (click)="finalizarChoferDialogo()" aria-label="finalizarViajeChofer">
           Finalizar Viaje
         </ion-button>
@@ -122,6 +128,7 @@
       <!-- Si hay viaje en progreso -->
       <div *ngIf="viajeEnProgresoPasajero">
         <h2>Viaje programado</h2>
+        <p>Chofer: {{ viajeEnProgresoPasajero.correoChofer.split('@')[0] }}</p>
         <p>Sede: {{ viajeEnProgresoPasajero.sede }}</p>
         <p>Hora de salida: {{ viajeEnProgresoPasajero.horaSalida }}</p>
         <p>Vehículo: {{ viajeEnProgresoPasajero.marcaVehiculo }} {{ viajeEnProgresoPasajero.modeloVehiculo }} {{

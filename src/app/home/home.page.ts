@@ -31,9 +31,10 @@ export class HomePage implements OnInit {
   userColor: string = '';
 
   currentDate: string = new Date().toISOString();
-  horaSalida: string = '';
+  horaSalida: string = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
   capacidadPasajeros: number = 0;
   precioPorPersona: number = 0;
+  correosPasajeros: string[] = [];
   viajeEnProgresoChofer: any = null;
 
   buscandoViaje: boolean = false;
@@ -83,6 +84,7 @@ export class HomePage implements OnInit {
     }
 
     this.obtenerViajeEnProgresoChofer(); // Llama a la función para obtener el viaje en progreso (chofer)
+
     this.obtenerViajeEnProgresoPasajero(); // Llama a la función para obtener el viaje en progreso (pasajero)
 
     this.printCurrentPosition(); // Llama a la función para obtener la geolocalización
@@ -116,8 +118,8 @@ export class HomePage implements OnInit {
     this.api.getViajes().subscribe((viajes) => {
       for (let viaje of viajes) {
         if (viaje.estadoViaje === 'Programado' && viaje.correoChofer === this.userCorreo) {
-
           this.viajeEnProgresoChofer = viaje;
+          this.correosPasajeros = this.viajeEnProgresoChofer.correoPasajero.split(',');
           break;
         }
       }
