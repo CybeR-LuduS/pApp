@@ -214,6 +214,36 @@ export class HomePage implements OnInit {
   }
 
 
+
+  //Mensaje de confirmación para finalizar viaje (chofer)
+  finalizarChoferDialogo() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        message: '¿Finalizar el viaje?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.finalizarViajeChofer();
+      }
+    });
+  }
+
+  finalizarViajeChofer() {
+    if (this.viajeEnProgresoChofer) {
+      this.viajeEnProgresoChofer.estadoViaje = 'Finalizado';
+      this.api.updateViaje(this.viajeEnProgresoChofer).subscribe((success) => {
+        console.log(success);
+        this.viajeEnProgresoChofer = null; // Aquí se establece que no hay un viaje en progreso
+        this.router.navigate(['/home']);
+      },
+      (error) => {
+        console.log(error);
+      });
+    }
+  }
+
   //Mensaje de confirmación para cancelar viaje (chofer)
   cancelarChoferDialogo() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -232,7 +262,7 @@ export class HomePage implements OnInit {
   cancelarViajeChofer() {
     this.api.deleteViaje(this.viajeEnProgresoChofer._id).subscribe((success) => {
       console.log(success);
-      this.viajeEnProgresoChofer = null; // Aquí se establece que no hay un viaje en progreso
+      this.viajeEnProgresoChofer = null;
       this.router.navigate(['/home']);
     },
       (error) => {

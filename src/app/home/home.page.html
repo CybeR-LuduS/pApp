@@ -50,7 +50,7 @@
         </ion-button>
       </div>
 
-      <!-- Si hay un viaje en progreso, mostrar la información del viaje y el botón de cancelar -->
+      <!-- Si hay un viaje en progreso, mostrar la información del viaje y los botones de finalizar y cancelar -->
       <div *ngIf="viajeEnProgresoChofer">
         <h2>Viaje programado</h2>
         <p>Sede: {{ viajeEnProgresoChofer.sede }}</p>
@@ -58,6 +58,9 @@
         <p>Vehículo: {{ viajeEnProgresoChofer.marcaVehiculo }} {{ viajeEnProgresoChofer.modeloVehiculo }} {{
           viajeEnProgresoChofer.colorVehiculo }}</p>
         <p>Patente: {{ viajeEnProgresoChofer.patenteVehiculo }}</p>
+        <ion-button color="success" (click)="finalizarChoferDialogo()" aria-label="finalizarViajeChofer">
+          Finalizar Viaje
+        </ion-button>
         <ion-button color="danger" (click)="cancelarChoferDialogo()" aria-label="cancelarViajeChofer">
           Cancelar Viaje
         </ion-button>
@@ -92,7 +95,7 @@
             </thead>
             <tbody>
               <ng-container *ngFor="let viaje of viajes">
-                <tr *ngIf="contarPasajeros(viaje.correoPasajero) < viaje.capacidadPasajeros">
+                <tr *ngIf="contarPasajeros(viaje.correoPasajero) < viaje.capacidadPasajeros && viaje.estadoViaje === 'Programado'">
                   <td>{{ viaje.sede }}</td>
                   <td>{{ viaje.horaSalida }}</td>
                   <td>
