@@ -31,8 +31,10 @@ export class HomePage implements OnInit {
   userColor: string = '';
 
   currentDate: string = new Date().toISOString();
-  horaSalida: string = '';
+  horaSalida: string = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+  capacidadPasajeros: number = 0;
   precioPorPersona: number = 0;
+  correosPasajeros: string[] = [];
   viajeEnProgresoChofer: any = null;
 
   buscandoViaje: boolean = false;
@@ -82,6 +84,7 @@ export class HomePage implements OnInit {
     }
 
     this.obtenerViajeEnProgresoChofer(); // Llama a la función para obtener el viaje en progreso (chofer)
+
     this.obtenerViajeEnProgresoPasajero(); // Llama a la función para obtener el viaje en progreso (pasajero)
 
     this.printCurrentPosition(); // Llama a la función para obtener la geolocalización
@@ -115,8 +118,8 @@ export class HomePage implements OnInit {
     this.api.getViajes().subscribe((viajes) => {
       for (let viaje of viajes) {
         if (viaje.estadoViaje === 'Programado' && viaje.correoChofer === this.userCorreo) {
-
           this.viajeEnProgresoChofer = viaje;
+          this.correosPasajeros = this.viajeEnProgresoChofer.correoPasajero.split(',');
           break;
         }
       }
@@ -129,8 +132,8 @@ export class HomePage implements OnInit {
   obtenerViajeEnProgresoPasajero() {
     this.api.getViajes().subscribe((viajes) => {
       for (let viaje of viajes) {
-        if (viaje.estadoViaje === 'Programado' && viaje.correoPasajero === this.userCorreo) {
-
+        // Verificar si correoPasajero contiene this.userCorreo
+        if (viaje.estadoViaje === 'Programado' && viaje.correoPasajero.includes(this.userCorreo)) {
           this.viajeEnProgresoPasajero = viaje;
           break;
         }
@@ -172,12 +175,23 @@ export class HomePage implements OnInit {
   /* VISTA CHOFER */
 
   generarViaje() {
-    // Lógica para crear un viaje con los datos proporcionados
+    // Validación de la capacidad de pasajeros
+    if (this.capacidadPasajeros < 1 || this.capacidadPasajeros > 4) {
+      alert('La capacidad debe ser entre 1 y 4 pasajeros');
+      return;
+    }
+
+    // Validación del precio por persona
+    if (this.precioPorPersona < 1000) {
+      alert('El precio por persona debe ser al menos 1000');
+      return;
+    }
 
     const viaje = {
       sede: this.userSede,
       rut: this.userRut,
       horaSalida: this.horaSalida,
+      capacidadPasajeros: this.capacidadPasajeros,
       precioPorPersona: this.precioPorPersona,
       estadoViaje: 'Programado',
 
@@ -202,6 +216,36 @@ export class HomePage implements OnInit {
   }
 
 
+
+  //Mensaje de confirmación para finalizar viaje (chofer)
+  finalizarChoferDialogo() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        message: '¿Finalizar el viaje?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.finalizarViajeChofer();
+      }
+    });
+  }
+
+  finalizarViajeChofer() {
+    if (this.viajeEnProgresoChofer) {
+      this.viajeEnProgresoChofer.estadoViaje = 'Finalizado';
+      this.api.updateViaje(this.viajeEnProgresoChofer).subscribe((success) => {
+        console.log(success);
+        this.viajeEnProgresoChofer = null; // Aquí se establece que no hay un viaje en progreso
+        this.router.navigate(['/home']);
+      },
+      (error) => {
+        console.log(error);
+      });
+    }
+  }
+
   //Mensaje de confirmación para cancelar viaje (chofer)
   cancelarChoferDialogo() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -220,7 +264,7 @@ export class HomePage implements OnInit {
   cancelarViajeChofer() {
     this.api.deleteViaje(this.viajeEnProgresoChofer._id).subscribe((success) => {
       console.log(success);
-      this.viajeEnProgresoChofer = null; // Aquí se establece que no hay un viaje en progreso
+      this.viajeEnProgresoChofer = null;
       this.router.navigate(['/home']);
     },
       (error) => {
@@ -229,7 +273,6 @@ export class HomePage implements OnInit {
   }
 
 
-  /* Falta generar mensaje de confirmación de creación de viaje y que cambie la vista del usuario chofer */
 
   /* VISTA PASAJERO */
 
@@ -239,7 +282,7 @@ export class HomePage implements OnInit {
     setTimeout(() => {
       this.api.getViajes().subscribe((res: any[]) => {
         console.log(res[0]);
-        this.viajes = res.filter((viaje: any) => viaje.correoPasajero === null); // Filtra los viajes sin pasajeros
+        this.viajes = res;
 
         // Simular un tiempo de espera de 4 segundos antes de desactivar buscandoViaje
         this.buscandoViaje = false;
@@ -253,12 +296,28 @@ export class HomePage implements OnInit {
     }, 4000);
   }
 
-  // Falta crear mensaje de confirmación (modal)
-  // Falta probar si efectivamente funciona, para lo que hay que usar un dispositivo o emulador
+  contarPasajeros(correoPasajero: string): number {
+    if (!correoPasajero || correoPasajero === '') {
+      return 0;
+    } else {
+      return correoPasajero.split(',').length - 1;
+    }
+  }
+
+
   async seleccionarViaje(viaje: any) {
     try {
-      viaje.correoPasajero = this.userCorreo // Modificar el campo correoPasajero con el correo del pasajero
-      const response = await this.api.updateViaje(viaje).toPromise(); // Utilizar el método updateViaje de api.service.ts para realizar la modificación
+      const currentViaje = await this.api.getViaje(viaje._id).toPromise();
+  
+      let correosPasajero = [];
+      if (currentViaje.correoPasajero !== null && currentViaje.correoPasajero !== undefined) {
+        correosPasajero = currentViaje.correoPasajero.split(',');
+      }
+      correosPasajero.push(this.userCorreo);
+  
+      currentViaje.correoPasajero = correosPasajero.join(',');
+  
+      const response = await this.api.updateViaje(currentViaje).toPromise();
     } catch (error) {
       console.error('Error al seleccionar el viaje', error);
     }
@@ -343,7 +402,17 @@ export class HomePage implements OnInit {
 
 
   cancelarViajePasajero(viaje: any) {
-    viaje.correoPasajero = null;
+    let correosPasajero = viaje.correoPasajero.split(',');
+  
+    // Eliminar el correo del pasajero
+    const index = correosPasajero.indexOf(this.userCorreo);
+    if (index > -1) {
+      correosPasajero.splice(index, 1);
+    }
+  
+    // Convertir el array de nuevo en una cadena
+    viaje.correoPasajero = correosPasajero.join(',');
+  
     this.api.updateViaje(viaje).toPromise()
       .then(response => {
         console.log(response);

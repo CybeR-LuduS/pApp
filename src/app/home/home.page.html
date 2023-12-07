@@ -20,7 +20,7 @@
 <ion-content class="ion-padding">
   <div class="contenedor">
     <strong>
-      <p class="username-text">Bienvenid@ {{ nombre }}</p>
+      <p class="username-text">Bienvenid&#64; {{ nombre }}</p>
       <p class="user-type">{{ userType }}</p>
     </strong>
 
@@ -31,8 +31,13 @@
       <div class="form" *ngIf="!viajeEnProgresoChofer">
         <ion-item>
           <ion-label>Selecciona la hora de salida</ion-label>
-          <ion-datetime id="horaSalida" [value]="currentDate" presentation="time" displayFormat="HH:mm"
+          <ion-datetime id="horaSalida" [value]="horaSalida" presentation="time" displayFormat="HH:mm"
             [(ngModel)]="horaSalida"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Cantidad de pasajeros</ion-label>
+          <ion-input id="cantidadPasajeros" [(ngModel)]="capacidadPasajeros" type="number"></ion-input>
         </ion-item>
 
         <ion-item>
@@ -45,7 +50,7 @@
         </ion-button>
       </div>
 
-      <!-- Si hay un viaje en progreso, mostrar la información del viaje y el botón de cancelar -->
+      <!-- Si hay un viaje en progreso, mostrar la información del viaje y los botones de finalizar y cancelar -->
       <div *ngIf="viajeEnProgresoChofer">
         <h2>Viaje programado</h2>
         <p>Sede: {{ viajeEnProgresoChofer.sede }}</p>
@@ -53,6 +58,15 @@
         <p>Vehículo: {{ viajeEnProgresoChofer.marcaVehiculo }} {{ viajeEnProgresoChofer.modeloVehiculo }} {{
           viajeEnProgresoChofer.colorVehiculo }}</p>
         <p>Patente: {{ viajeEnProgresoChofer.patenteVehiculo }}</p>
+        <p>Pasajeros:</p>
+        <ul>
+          <li *ngFor="let correo of correosPasajeros">
+            {{ correo.split('@')[0] }}
+          </li>
+        </ul>
+        <ion-button color="success" (click)="finalizarChoferDialogo()" aria-label="finalizarViajeChofer">
+          Finalizar Viaje
+        </ion-button>
         <ion-button color="danger" (click)="cancelarChoferDialogo()" aria-label="cancelarViajeChofer">
           Cancelar Viaje
         </ion-button>
@@ -81,34 +95,40 @@
                 <th>Hora de salida</th>
                 <th>Vehículo</th>
                 <th>Patente</th>
+                <th>Capacidad</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let viaje of viajes">
-                <td>{{ viaje.sede }}</td>
-                <td>{{ viaje.horaSalida }}</td>
-                <td>
-                  {{viaje.marcaVehiculo}} <br>
-                  {{viaje.modeloVehiculo}} <br>
-                  {{viaje.colorVehiculo}} <br>
-                </td>
-                <td>{{ viaje.patenteVehiculo }}</td>
-                <td>
-                  <ion-button color="success" (click)="seleccionarViaje(viaje)">
-                    ${{ viaje.precioPorPersona }} p/persona <br>
-                    Seleccionar
-                  </ion-button>
-                </td>
-              </tr>
+              <ng-container *ngFor="let viaje of viajes">
+                <tr *ngIf="contarPasajeros(viaje.correoPasajero) < viaje.capacidadPasajeros && viaje.estadoViaje === 'Programado'">
+                  <td>{{ viaje.sede }}</td>
+                  <td>{{ viaje.horaSalida }}</td>
+                  <td>
+                    {{viaje.marcaVehiculo}} <br>
+                    {{viaje.modeloVehiculo}} <br>
+                    {{viaje.colorVehiculo}} <br>
+                  </td>
+                  <td>{{ viaje.patenteVehiculo }}</td>
+                  <td>{{ contarPasajeros(viaje.correoPasajero) }}/{{ viaje.capacidadPasajeros }}</td>
+                  <td>
+                    <ion-button color="success" (click)="seleccionarViaje(viaje)">
+                      ${{ viaje.precioPorPersona }} p/persona <br>
+                      Seleccionar
+                    </ion-button>
+                  </td>
+                </tr>
+              </ng-container>
             </tbody>
           </table>
         </div>
+
       </div>
 
       <!-- Si hay viaje en progreso -->
       <div *ngIf="viajeEnProgresoPasajero">
         <h2>Viaje programado</h2>
+        <p>Chofer: {{ viajeEnProgresoPasajero.correoChofer.split('@')[0] }}</p>
         <p>Sede: {{ viajeEnProgresoPasajero.sede }}</p>
         <p>Hora de salida: {{ viajeEnProgresoPasajero.horaSalida }}</p>
         <p>Vehículo: {{ viajeEnProgresoPasajero.marcaVehiculo }} {{ viajeEnProgresoPasajero.modeloVehiculo }} {{
