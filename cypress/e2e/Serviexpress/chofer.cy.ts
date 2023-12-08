@@ -47,6 +47,8 @@ describe('Pruebas E2E para chofer TeLlevoAPP', () => {
       }
     });
     
+    cy.get("#cantidadPasajeros").type("3")
+
     cy.get('#precioPorPersona').type('2500');
     
     cy.contains('Programar Viaje').click();
