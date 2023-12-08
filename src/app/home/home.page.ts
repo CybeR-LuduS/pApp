@@ -23,6 +23,9 @@ export class HomePage implements OnInit {
   username: string = '';
   nombre: string = '';
 
+  errorMessage: string = '';
+  errorMessageVisible: boolean = false;
+
   userSede: string = '';
   userRut: string = '';
   userPatente: string = '';
@@ -177,13 +180,23 @@ export class HomePage implements OnInit {
   generarViaje() {
     // Validación de la capacidad de pasajeros
     if (this.capacidadPasajeros < 1 || this.capacidadPasajeros > 4) {
-      alert('La capacidad debe ser entre 1 y 4 pasajeros');
+      this.errorMessage = 'La capacidad debe ser entre 1 y 4 pasajeros';
+      this.errorMessageVisible = true;
+
+      setTimeout(() => {
+        this.errorMessageVisible = false;
+      }, 3000);
       return;
     }
 
     // Validación del precio por persona
     if (this.precioPorPersona < 1000) {
-      alert('El precio por persona debe ser al menos 1000');
+      this.errorMessage = 'El precio por persona debe ser al menos 1000';
+      this.errorMessageVisible = true;
+
+      setTimeout(() => {
+        this.errorMessageVisible = false;
+      }, 3000);
       return;
     }
 
