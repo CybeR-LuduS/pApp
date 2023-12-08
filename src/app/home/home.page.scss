@@ -87,6 +87,11 @@ ion-button:hover {
 
 /* TABLA LISTA CHOFERES*/
 
+.responsive-table {
+  overflow-x: auto;
+}
+
+
 /* Estilos para la tabla */
 table {
   width: 100%;
@@ -102,7 +107,7 @@ tr {
 /* Estilos para las celdas */
 td {
   padding: 12px;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid #ddd; /* Borde inferior en las celdas */
 }
 
@@ -113,6 +118,36 @@ th {
   padding: 12px;
   text-align: left;
 }
+
+@media screen and (max-width: 600px) {
+  table {
+    width: 100%;
+  }
+  table thead {
+    display: none;
+  }
+  table tr {
+    margin-bottom: 10px;
+    display: block;
+    border-bottom: 2px solid #ddd;
+  }
+  table td {
+    display: block;
+    text-align: right;
+    font-size: 13px;
+    border-bottom: 1px dotted #ccc;
+  }
+  table td:last-child {
+    border-bottom: 0;
+  }
+  table td:before {
+    content: attr(data-label);
+    float: left;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+}
+
 
 @media (max-width: 768px) {
   table {
@@ -127,3 +162,19 @@ ion-button {
   margin: 5px 0;
 }
 
+
+/* Espaciador */
+.spacer {
+  height: 12px;
+}
+
+/* Mensajes de error en validación */
+.error-message {
+  color: red;
+  transition: opacity 1s; 
+  opacity: 1; 
+}
+
+.error-message.hidden {
+  opacity: 0;
+}
